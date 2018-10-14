@@ -4,5 +4,9 @@
 {% if user.is_authenticated %}
 <h1>Welcome, {{user.username}}</h1>
 <a href="{% url 'list' %}">Begin Game</a>
+<a href="{% url 'logout' %}">Logout</a>
+{% else %}
+<p>You are not logged in</p>
+ <a href="{% url 'login' %}">login</a>
 {% endif %}
 {% endblock %}
