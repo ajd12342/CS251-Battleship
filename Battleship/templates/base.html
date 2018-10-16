@@ -10,8 +10,19 @@
 </head>
 <body>
 	<main>
+	<!-- {% if user.is_authenticated %} -->
 	{% block content %}
 	{% endblock %}
+	<!-- {% else %} -->
+<!-- <div class="container jumbotron justify-content-centre bg-warning">
+	<h3>Error !</h3>
+	<hr>
+	<div class="alert alert-danger">
+		<h5>You are not logged in</h5>
+	</div>
+	<a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+</div>
+{% endif %} -->
 	</main>
 </body>
 </html>

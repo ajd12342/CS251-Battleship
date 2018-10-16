@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-{% if user.is_authenticated %}
 <br>
 <div class="container jumbotron justify-content-centre">
 	<h1 class="row">Welcome, {{user.username}}</h1>
@@ -10,15 +9,4 @@
 	<br><br>
 	<a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
 </div>
-{% else %}
-<br>
-<div class="container jumbotron justify-content-centre bg-warning">
-	<h3>Error !</h3>
-	<hr>
-	<div class="alert alert-danger">
-		<h5>You are not logged in</h5>
-	</div>
-	<a href="{% url 'login' %}" class="btn btn-primary">Login</a>
-</div>
-{% endif %}
 {% endblock %}
