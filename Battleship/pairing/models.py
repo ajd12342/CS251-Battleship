@@ -24,8 +24,10 @@ def save_user_profile(sender, instance, **kwargs):
 
 @receiver(user_logged_in, sender=User)
 def on_login(sender, request, user, **kwargs):
-	user.profile.isAvailable=True
+    user.profile.isAvailable=True
+    user.profile.save()
 
 @receiver(user_logged_out, sender=User)
 def on_logout(sender, request, user, **kwargs):
-	user.profile.isAvailable=False
+    user.profile.isAvailable=False
+    user.profile.save()
