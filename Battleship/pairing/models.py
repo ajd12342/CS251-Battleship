@@ -14,7 +14,7 @@ class Profile(models.Model):
     isAvailable= models.BooleanField(default= False)
     
     def __str__(self):
-        return self.user
+        return str(self.user)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
