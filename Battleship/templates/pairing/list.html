@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}Available players{% endblock %}
 {% block content %}
-	{% if profiles %}
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top justify-content-end">
+        <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+    </nav>
+    <br>
+    {% if profiles %}
 	{% for profile in profiles %}
-        <div class="container jumbotron justify-content-centre">
-	        <h2>{{ profile.user.username }}</h2>
-            <h2>{{ profile.bio }}</h2>
-            <h2>{{ profile.location }}</h2>
+        <div class="container jumbotron col-sm-10 col-lg-8">
+	        <h3>{{ profile.user.username }}</h3>
+            <hr>
+            <h6>{{ profile.bio }}</h6>
+            <h6>{{ profile.location }}</h6>
         </div>
 	{% endfor %}
 	{% endif %}
