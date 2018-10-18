@@ -1,4 +1,4 @@
-{% extends 'bareBase.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Login{% endblock %}
 
@@ -27,6 +27,7 @@
     <input type="submit" value="Login" class="btn btn-primary">
   </div>
 </form>
+<p>Don't have an account? <a href="{%  url 'signup' %}">Sign up now.</a> </p>
 </div>
 {% endblock %}
 

@@ -3,7 +3,11 @@
 {% block content %}
 	{% if profiles %}
 	{% for profile in profiles %}
-	<h2>{{ profile.user.username }}</h2>
+        <div class="container jumbotron justify-content-centre">
+	        <h2>{{ profile.user.username }}</h2>
+            <h2>{{ profile.bio }}</h2>
+            <h2>{{ profile.location }}</h2>
+        </div>
 	{% endfor %}
 	{% endif %}
 {% endblock %}
