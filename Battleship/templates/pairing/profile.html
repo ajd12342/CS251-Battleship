@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Profile{% endblock %}
 {% block content %}
+<nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top justify-content-end">
+	<a href="{% url 'profile' %}" class="navbar-brand">{{user.username}}</a>
+    <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+</nav>
 <br>
 <div class="container jumbotron justify-content-centre">
 	<h1 class="row">Welcome, {{user.username}}.</h1>
 	<hr>
 	<a href="{% url 'list' %}" class="btn btn-success">Begin Game</a>
-	<br><br>
-	<a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
 </div>
 {% endblock %}

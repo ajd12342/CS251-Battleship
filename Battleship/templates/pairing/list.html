@@ -2,6 +2,7 @@
 {% block title %}Available players{% endblock %}
 {% block content %}
     <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top justify-content-end">
+    	<a href="{% url 'profile' %}" class="navbar-brand">{{user.username}}</a>
         <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
     </nav>
     <br>
