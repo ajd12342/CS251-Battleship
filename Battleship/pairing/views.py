@@ -19,6 +19,10 @@ def profile(request):
 def list_available(request):
     return render(request, 'pairing/list.html', {'users': User.objects.all()})
 
+@login_required
+def blankView(request):
+    return render(request,'base.html',{})
+
 from .forms import CustomSignUpForm
 from django.urls import reverse_lazy
 from django.views import generic
