@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6dd3004-8d0f-41d3-aa0c-8500eccb9ac8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Battleship/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Battleship/pairing/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/pairing/consumers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Battleship/pairing/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/pairing/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Battleship/pairing/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/pairing/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Battleship/pairing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/pairing/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Battleship/templates/pairing/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/templates/pairing/list.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -89,7 +84,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="1" />
-          <entry key="html" value="2286" />
+          <entry key="html" value="2328" />
           <entry key="py" value="1868" />
           <entry key="py@CS251-Battleship" value="36" />
         </counts>
@@ -97,7 +92,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CommandLine" value="35" />
-          <entry key="HTML" value="2286" />
+          <entry key="HTML" value="2328" />
           <entry key="PLAIN_TEXT" value="2" />
           <entry key="Python" value="1868" />
         </counts>
@@ -135,8 +130,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Battleship/templates/pairing/list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="123" column="16" lean-forward="true" selection-start-line="123" selection-start-column="16" selection-end-line="123" selection-end-column="16" />
+            <state relative-caret-position="240">
+              <caret line="33" column="33" lean-forward="true" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
               <folding>
                 <element signature="e#388#416#0#HTML" expanded="true" />
               </folding>
@@ -593,8 +588,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Battleship/templates/pairing/list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="123" column="16" lean-forward="true" selection-start-line="123" selection-start-column="16" selection-end-line="123" selection-end-column="16" />
+        <state relative-caret-position="240">
+          <caret line="33" column="33" lean-forward="true" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
           <folding>
             <element signature="e#388#416#0#HTML" expanded="true" />
           </folding>
