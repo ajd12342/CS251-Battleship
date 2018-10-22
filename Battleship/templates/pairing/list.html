@@ -6,14 +6,56 @@
         <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
     </nav>
     <br>
-    {% if profiles %}
-	{% for profile in profiles %}
-        <div class="container jumbotron col-sm-10 col-lg-8">
-	        <h3>{{ profile.user.username }}</h3>
-            <hr>
-            <h6>{{ profile.bio }}</h6>
-            <h6>{{ profile.location }}</h6>
-        </div>
-	{% endfor %}
+    {% if users %}
+	<ul id="l" style="list-style-type:none">
+    {% for user in users %}
+      <!-- NOTE: We escape HTML to prevent XSS attacks. -->
+      <li data-username="{{ user.username|escape }}" class="jumbotron justify-content-center">
+          <h5><a href="#">{{ user.username|escape }}</a></h5>
+        {{ user.bio|escape }}
+          {{ user.location|escape  }}
+      </li>
+    {% endfor %}
+  </ul>
 	{% endif %}
+   <script>
+    $(document).ready(function () {
+        {% if users %}
+        {% for user in users %}
+            {% if not user.profile.isAvailable %}
+                var user = $('li').filter(function () {
+        return $(this).data('username') == "{{ user.username }}";
+        });
+                user.hide();
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    });
+    var socket = new WebSocket('ws://' + window.location.host + '/users/');
+
+    socket.onopen = function open() {
+      console.log('WebSockets connection created.');
+    };
+
+    socket.onmessage = function message(event) {
+      var data = JSON.parse(event.data);
+      // NOTE: We escape JavaScript to prevent XSS attacks.
+        if('logged_username' in data) {
+            var username = encodeURI(data['logged_username']);
+            var user = $('li').filter(function () {
+                return $(this).data('username') == username;
+            });
+
+            if (data['is_logged_in']) {
+                user.show();
+            }
+            else {
+                user.hide();
+            }
+        }
+    };
+    if (socket.readyState == WebSocket.OPEN) {
+      socket.onopen();
+    }
+    </script>
 {% endblock %}

@@ -17,7 +17,7 @@ def profile(request):
 
 @login_required
 def list_available(request):
-    return render(request, 'pairing/list.html', {'profiles': Profile.objects.filter(isAvailable=True)})
+    return render(request, 'pairing/list.html', {'users': User.objects.all()})
 
 from .forms import CustomSignUpForm
 from django.urls import reverse_lazy

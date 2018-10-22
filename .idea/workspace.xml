@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6dd3004-8d0f-41d3-aa0c-8500eccb9ac8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Battleship/Battleship/routing.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Battleship/pairing/consumers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Battleship/pairing/routing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4ff28207-e708-4b7e-b541-a6d549112563.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Battleship/Battleship/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/Battleship/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Battleship/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Battleship/pairing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/pairing/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Battleship/templates/pairing/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Battleship/templates/pairing/list.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,6 +50,13 @@
         <item name="Django default" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="main: schema" type="90513b60:SqliteImplModel$Schema" />
+        <item name="auth_user: table" type="ffe0bd85:SqliteImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="Django default" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="main: schema" type="90513b60:SqliteImplModel$Schema" />
         <item name="pairing_profile: table" type="ffe0bd85:SqliteImplModel$Table" />
       </path>
     </expand>
@@ -55,37 +70,39 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.37" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="auth_user" value="1" />
-          <entry key="html" value="11" />
-          <entry key="pairing_profile" value="2" />
-          <entry key="py" value="14" />
+          <entry key="html" value="12" />
+          <entry key="pairing_profile" value="3" />
+          <entry key="py" value="21" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Database Element" value="3" />
-          <entry key="HTML" value="11" />
-          <entry key="Python" value="14" />
+          <entry key="Database Element" value="4" />
+          <entry key="HTML" value="12" />
+          <entry key="Python" value="21" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="386" />
-          <entry key="py" value="817" />
-          <entry key="py@CS251-Battleship" value="20" />
+          <entry key="dummy" value="1" />
+          <entry key="html" value="943" />
+          <entry key="py" value="1559" />
+          <entry key="py@CS251-Battleship" value="36" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CommandLine" value="19" />
-          <entry key="HTML" value="386" />
-          <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="817" />
+          <entry key="CommandLine" value="35" />
+          <entry key="HTML" value="943" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="Python" value="1559" />
         </counts>
       </usages-collector>
     </session>
@@ -117,17 +134,20 @@
     <favorites_list name="CS251-Battleship" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Battleship/templates/pairing/list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+            <state relative-caret-position="387">
+              <caret line="55" column="6" selection-start-line="55" selection-start-column="6" selection-end-line="55" selection-end-column="6" />
+              <folding>
+                <element signature="e#388#416#0#HTML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="das://5b1a04b2-fff8-4646-aa70-09874e75fb8d/schema/main/table/pairing_profile">
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
@@ -137,12 +157,21 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Battleship/pairing/models.py">
+        <entry file="file://$PROJECT_DIR$/Battleship/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="34" column="18" lean-forward="true" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
+            <state relative-caret-position="100">
+              <caret line="5" column="48" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Battleship/Battleship/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="86">
+              <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
               <folding>
-                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#634#666#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -151,42 +180,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Battleship/pairing/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
+            <state relative-caret-position="121">
+              <caret line="14" column="21" lean-forward="true" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Battleship/pairing/forms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="10" column="124" selection-start-line="10" selection-start-column="124" selection-end-line="10" selection-end-column="124" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Battleship/pairing/tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Battleship/pairing/admin.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -204,17 +201,46 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Battleship/Battleship/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="34" column="26" lean-forward="true" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
+            <state relative-caret-position="140">
+              <caret line="73" column="30" lean-forward="true" selection-start-line="73" selection-start-column="30" selection-end-line="73" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Battleship/templates/registration/signup.html">
+        <entry file="file://$PROJECT_DIR$/Battleship/Battleship/routing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="11" column="55" selection-start-line="11" selection-start-column="55" selection-end-line="11" selection-end-column="55" />
+            <state relative-caret-position="200">
+              <caret line="10" column="2" lean-forward="true" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Battleship/pairing/consumers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="50">
+              <caret line="63" column="52" selection-start-line="63" selection-start-column="52" selection-end-line="63" selection-end-column="52" />
+              <folding>
+                <element signature="e#0#61#0" expanded="true" />
+                <marker date="1540220526133" expanded="true" signature="1223:1245" ph="..." />
+                <marker date="1540220526133" expanded="true" signature="1734:1743" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Battleship/pairing/routing.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="9" column="51" lean-forward="true" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -239,15 +265,19 @@
         <option value="$PROJECT_DIR$/Battleship/templates/base.html" />
         <option value="$PROJECT_DIR$/Battleship/Battleship/urls.py" />
         <option value="$PROJECT_DIR$/Battleship/pairing/urls.py" />
-        <option value="$PROJECT_DIR$/Battleship/pairing/views.py" />
         <option value="$PROJECT_DIR$/Battleship/pairing/templatetags/__init__.py" />
         <option value="$PROJECT_DIR$/Battleship/pairing/templatetags/addcss.py" />
-        <option value="$PROJECT_DIR$/Battleship/Battleship/settings.py" />
         <option value="$PROJECT_DIR$/Battleship/templates/registration/login.html" />
         <option value="$PROJECT_DIR$/Battleship/templates/pairing/profile.html" />
         <option value="$PROJECT_DIR$/Battleship/pairing/forms.py" />
-        <option value="$PROJECT_DIR$/Battleship/templates/pairing/list.html" />
         <option value="$PROJECT_DIR$/Battleship/templates/registration/signup.html" />
+        <option value="$PROJECT_DIR$/Battleship/pairing/consumer.py" />
+        <option value="$PROJECT_DIR$/Battleship/pairing/views.py" />
+        <option value="$PROJECT_DIR$/Battleship/Battleship/settings.py" />
+        <option value="$PROJECT_DIR$/Battleship/Battleship/routing.py" />
+        <option value="$PROJECT_DIR$/Battleship/pairing/routing.py" />
+        <option value="$PROJECT_DIR$/Battleship/pairing/consumers.py" />
+        <option value="$PROJECT_DIR$/Battleship/templates/pairing/list.html" />
       </list>
     </option>
   </component>
@@ -258,9 +288,12 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="-15" />
-    <option name="width" value="683" />
-    <option name="height" value="783" />
+    <option name="y" value="25" />
+    <option name="width" value="663" />
+    <option name="height" value="555" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -273,6 +306,42 @@
             <path>
               <item name="CS251-Battleship" type="b2602c69:ProjectViewProjectNode" />
               <item name="CS251-Battleship" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CS251-Battleship" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS251-Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="Battleship" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CS251-Battleship" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS251-Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="Battleship" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CS251-Battleship" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS251-Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="pairing" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CS251-Battleship" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS251-Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CS251-Battleship" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS251-Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="pairing" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CS251-Battleship" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS251-Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="Battleship" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -325,17 +394,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1366" height="743" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" sideWeight="0.50121653" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.49878347" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49878347" visible="true" weight="0.19166666" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="manage.py@CS251-Battleship" order="0" visible="true" weight="0.32952693" />
+      <window_info anchor="bottom" id="manage.py@CS251-Battleship" order="0" weight="0.6688418" />
       <window_info anchor="bottom" id="Database Changes" order="1" />
       <window_info anchor="bottom" id="Terminal" order="2" weight="0.32952693" />
-      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" weight="0.32952693" />
       <window_info anchor="bottom" id="Version Control" order="4" />
       <window_info anchor="bottom" id="Database Console" order="5" weight="0.33278957" />
-      <window_info anchor="bottom" id="Python Console" order="6" />
+      <window_info anchor="bottom" id="Python Console" order="6" weight="0.32952693" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="8" />
       <window_info anchor="bottom" id="Find" order="9" />
@@ -344,7 +414,7 @@
       <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="14" />
-      <window_info anchor="right" id="Database" order="0" weight="0.32906628" />
+      <window_info anchor="right" id="Database" order="0" weight="0.3287879" />
       <window_info anchor="right" id="SciView" order="1" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
@@ -370,73 +440,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Battleship/Battleship/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Battleship/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="48" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Battleship/pairing/templatetags/addcss.py" />
     <entry file="file://$PROJECT_DIR$/Battleship/pairing/templatetags/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/Battleship/templates/pairing/list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://5b1a04b2-fff8-4646-aa70-09874e75fb8d/schema/main/table/pairing_profile">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Battleship/pairing/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="34" column="18" lean-forward="true" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Battleship/pairing/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Battleship/pairing/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="124" selection-start-line="10" selection-start-column="124" selection-end-line="10" selection-end-column="124" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://5b1a04b2-fff8-4646-aa70-09874e75fb8d/schema/main/table/auth_user">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Battleship/templates/registration/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -451,17 +456,143 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Battleship/Battleship/settings.py">
+    <entry file="file://$PROJECT_DIR$/Battleship/pairing/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="34" column="26" lean-forward="true" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
+        <state relative-caret-position="560">
+          <caret line="34" column="18" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/pairing/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="10" column="124" selection-start-line="10" selection-start-column="124" selection-end-line="10" selection-end-column="124" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/pairing/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/pairing/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Battleship/templates/registration/signup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
+        <state relative-caret-position="220">
           <caret line="11" column="55" selection-start-line="11" selection-start-column="55" selection-end-line="11" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.6/site-packages/channels/routing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/Battleship/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="73" column="30" lean-forward="true" selection-start-line="73" selection-start-column="30" selection-end-line="73" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="48" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/Battleship/routing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="2" lean-forward="true" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/pairing/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="121">
+          <caret line="14" column="21" lean-forward="true" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/pairing/routing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="51" lean-forward="true" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/pairing/consumers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="63" column="52" selection-start-line="63" selection-start-column="52" selection-end-line="63" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#61#0" expanded="true" />
+            <marker date="1540220526133" expanded="true" signature="1223:1245" ph="..." />
+            <marker date="1540220526133" expanded="true" signature="1734:1743" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://5b1a04b2-fff8-4646-aa70-09874e75fb8d/schema/main/table/pairing_profile">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://5b1a04b2-fff8-4646-aa70-09874e75fb8d/schema/main/table/auth_user">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/Battleship/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
+          <folding>
+            <element signature="e#634#666#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Battleship/templates/pairing/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="55" column="6" selection-start-line="55" selection-start-column="6" selection-end-line="55" selection-end-column="6" />
+          <folding>
+            <element signature="e#388#416#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

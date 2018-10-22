@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,7 +71,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Battleship.wsgi.application'
-
+ASGI_APPLICATION = 'Battleship.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1',10000)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
