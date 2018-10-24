@@ -112,6 +112,7 @@
             }
             if(data['purpose']=='Reject_Request'){
                 $('#waitModal').modal('hide');
+                alert("Your request was rejected. Lol.");
             }
             if(data['purpose']=='Cancel_Request'){
                 $('#myModal').modal('hide');
@@ -122,13 +123,15 @@
     $(document).on("click", "#l li" , function() {
             var send_to_username=$(this).data('username');
                 sentTo = send_to_username;
-                socket.send(JSON.stringify({
-                    'type': 'chat_message',
-                    'from': '{{ user.username }}',
-                    'to': send_to_username,
-                    'purpose': 'Send_Request'
-                }));
-                $('#waitModal').modal('show');
+                if(send_to_username !== '{{ user.username }}') {
+                    socket.send(JSON.stringify({
+                        'type': 'chat_message',
+                        'from': '{{ user.username }}',
+                        'to': send_to_username,
+                        'purpose': 'Send_Request'
+                    }));
+                    $('#waitModal').modal('show');
+                }
         });
     $(document).on("click","#accept",function () {
              var send_to_username = receivedData['from'];
