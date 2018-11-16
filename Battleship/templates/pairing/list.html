@@ -71,7 +71,7 @@
         {% for userit in users %}
             {% if not userit.profile.isAvailable %}
                 var user = $('li').filter(function () {
-        return $(this).data('username') == "{{ userit.username }}";
+        return $(this).data('username') === "{{ userit.username }}";
         });
                 user.hide();
             {% endif %}
@@ -91,7 +91,7 @@
         if('logged_username' in data) {
             var username = encodeURI(data['logged_username']);
             var user = $('li').filter(function () {
-                return $(this).data('username') == username;
+                return $(this).data('username') === username;
             });
 
             if (data['is_logged_in']) {
@@ -102,19 +102,19 @@
             }
         }
         if('purpose' in data){
-            if(data['purpose']=='Send_Request') {
+            if(data['purpose']==='Send_Request') {
                 $('#modalBody').text(data['from']);
                 $('#myModal').modal('show');
             }
-            if(data['purpose']=='Accept_Request'){
+            if(data['purpose']==='Accept_Request'){
                 alert("Your request was accepted.");
                 window.location.href = '{%  url 'blank' %}';
             }
-            if(data['purpose']=='Reject_Request'){
+            if(data['purpose']==='Reject_Request'){
                 $('#waitModal').modal('hide');
                 alert("Your request was rejected. Lol.");
             }
-            if(data['purpose']=='Cancel_Request'){
+            if(data['purpose']==='Cancel_Request'){
                 $('#myModal').modal('hide');
             }
         }
@@ -160,7 +160,7 @@
                  'purpose': 'Cancel_Request'
              }));
     });
-    if (socket.readyState == WebSocket.OPEN) {
+    if (socket.readyState === WebSocket.OPEN) {
       socket.onopen();
     }
     </script>
