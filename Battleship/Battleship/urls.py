@@ -18,6 +18,7 @@ from django.urls import include,path
 # from .pairing import views
 urlpatterns = [
     path('pairing/',include('pairing.urls')),
+    path('play/',include(('play.urls','play'),namespace='play')),
     path('admin/', admin.site.urls),
     path('accounts/',include('django.contrib.auth.urls')),
     # path('accounts/signup/', views.SignUp.as_view(),name='signup'),

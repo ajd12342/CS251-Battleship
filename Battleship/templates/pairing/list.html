@@ -108,7 +108,8 @@
             }
             if(data['purpose']==='Accept_Request'){
                 alert("Your request was accepted.");
-                window.location.href = '{%  url 'place' %}';
+                var pathto=sentTo+'_'+'{{ user.username }}';
+             window.location.href = '/play/place/'+pathto;
             }
             if(data['purpose']==='Reject_Request'){
                 $('#waitModal').modal('hide');
@@ -141,7 +142,8 @@
                  'to': send_to_username,
                  'purpose': 'Accept_Request'
              }));
-             window.location.href = '{%  url 'blank' %}';
+             var pathto='{{ user.username }}' + '_' + send_to_username;
+            window.location.href = '/play/place/'+pathto;
     });
     $(document).on("click","#reject",function () {
              var send_to_username = receivedData['from'];
