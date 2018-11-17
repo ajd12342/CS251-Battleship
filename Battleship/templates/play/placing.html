@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Place Ships{% endblock %}
+
 {% block content %}
+    <div id="like_button_container"></div>
+    {% load static %}
+    <script src='{% static "play/leaderboard.js" %}'></script>
 {% endblock %}

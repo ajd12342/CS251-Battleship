@@ -132,5 +132,8 @@ DATE_FORMAT = "d-m-Y"
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "play/static/play/"),
+]
 LOGIN_REDIRECT_URL = '/pairing/profile'
 LOGOUT_REDIRECT_URL= '/pairing/'
