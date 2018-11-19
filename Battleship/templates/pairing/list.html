@@ -2,168 +2,168 @@
 {% block title %}Available players{% endblock %}
 {% block content %}
     <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top justify-content-end">
-    	<a href="{% url 'profile' %}" class="navbar-brand">{{user.username}}</a>
+        <a href="{% url 'profile' %}" class="navbar-brand">{{user.username}}</a>
         <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
     </nav>
     <br>
-  <!-- The Modal -->
-  <div class="modal" id="myModal" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
+    <!-- The Modal -->
+    <div class="modal" id="myModal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Request received</h4>
-        </div>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Request received</h4>
+                </div>
 
-        <!-- Modal body -->
-        <div id="modalBody" class="modal-body">
-          ...
-        </div>
+                <!-- Modal body -->
+                <div id="modalBody" class="modal-body">
+                    ...
+                </div>
 
-        <!-- Modal footer -->
-           <div class="modal-footer">
-          <button id="accept" type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
-          <button id="reject" type="button" class="btn btn-danger" data-dismiss="modal">Reject</button>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="accept" type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
+                    <button id="reject" type="button" class="btn btn-danger" data-dismiss="modal">Reject</button>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-  </div>
     <div class="modal" id="waitModal" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Request sent</h4>
-        </div>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Request sent</h4>
+                </div>
 
-        <!-- Modal body -->
-        <div id="modalBody" class="modal-body">
-          Waiting for request to be accepted.
-        </div>
+                <!-- Modal body -->
+                <div id="modalBody" class="modal-body">
+                    Waiting for request to be accepted.
+                </div>
 
-        <!-- Modal footer -->
-           <div class="modal-footer">
-          <button id="cancel" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="cancel" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-  </div>
     {% if users %}
-	<ul id="l" style="list-style-type:none">
-    {% for userit in users %}
-      <!-- NOTE: We escape HTML to prevent XSS attacks. -->
-      <li data-username="{{ userit.username|escape }}" class="jumbotron justify-content-center">
-          <h5>{{ userit.username|escape }}</h5>
-        {{ userit.bio|escape }}
-          {{ userit.location|escape  }}
-      </li>
-    {% endfor %}
-  </ul>
-	{% endif %}
-   <script>
-   var receivedData='';
-    $(document).ready(function () {
-        $('#myModal').modal({ show: false});
-        $('#waitModal').modal({ show: false});
-        {% if users %}
-        {% for userit in users %}
-            {% if not userit.profile.isAvailable %}
-                var user = $('li').filter(function () {
-        return $(this).data('username') === "{{ userit.username }}";
-        });
-                user.hide();
+        <ul id="l" style="list-style-type:none">
+            {% for userit in users %}
+                <!-- NOTE: We escape HTML to prevent XSS attacks. -->
+                <li data-username="{{ userit.username|escape }}" class="jumbotron justify-content-center">
+                    <h5>{{ userit.username|escape }}</h5>
+                    {{ userit.bio|escape }}
+                    {{ userit.location|escape  }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <script>
+        var receivedData='';
+        $(document).ready(function () {
+            $('#myModal').modal({ show: false});
+            $('#waitModal').modal({ show: false});
+            {% if users %}
+                {% for userit in users %}
+                    {% if not userit.profile.isAvailable %}
+                        var user = $('li').filter(function () {
+                            return $(this).data('username') === "{{ userit.username }}";
+                        });
+                        user.hide();
+                    {% endif %}
+                {% endfor %}
             {% endif %}
-        {% endfor %}
-        {% endif %}
-    });
-    var socket = new WebSocket('ws://' + window.location.host + '/users/');
-
-    socket.onopen = function open() {
-      console.log('WebSockets connection created.');
-    };
-
-    socket.onmessage = function message(event) {
-      var data = JSON.parse(event.data);
-      receivedData=data;
-      // NOTE: We escape JavaScript to prevent XSS attacks.
-        if('logged_username' in data) {
-            var username = encodeURI(data['logged_username']);
-            var user = $('li').filter(function () {
-                return $(this).data('username') === username;
-            });
-
-            if (data['is_logged_in']) {
-                user.show();
-            }
-            else {
-                user.hide();
-            }
-        }
-        if('purpose' in data){
-            if(data['purpose']==='Send_Request') {
-                $('#modalBody').text(data['from']);
-                $('#myModal').modal('show');
-            }
-            if(data['purpose']==='Accept_Request'){
-                alert("Your request was accepted.");
-                var pathto=sentTo+'_'+'{{ user.username }}';
-             window.location.href = '/play/place/'+pathto;
-            }
-            if(data['purpose']==='Reject_Request'){
-                $('#waitModal').modal('hide');
-                alert("Your request was rejected. Lol.");
-            }
-            if(data['purpose']==='Cancel_Request'){
-                $('#myModal').modal('hide');
-            }
-        }
-    };
-    var sentTo='';
-    $(document).on("click", "#l li" , function() {
-            var send_to_username=$(this).data('username');
-                sentTo = send_to_username;
-                if(send_to_username !== '{{ user.username }}') {
-                    socket.send(JSON.stringify({
-                        'type': 'chat_message',
-                        'from': '{{ user.username }}',
-                        'to': send_to_username,
-                        'purpose': 'Send_Request'
-                    }));
-                    $('#waitModal').modal('show');
-                }
         });
-    $(document).on("click","#accept",function () {
-             var send_to_username = receivedData['from'];
-             socket.send(JSON.stringify({
-                 'type': 'chat_message',
-                 'from': '{{ user.username }}',
-                 'to': send_to_username,
-                 'purpose': 'Accept_Request'
-             }));
-             var pathto='{{ user.username }}' + '_' + send_to_username;
+        var socket = new WebSocket('ws://' + window.location.host + '/users/');
+
+        socket.onopen = function open() {
+            console.log('WebSockets connection created.');
+        };
+
+        socket.onmessage = function message(event) {
+            var data = JSON.parse(event.data);
+            receivedData=data;
+            // NOTE: We escape JavaScript to prevent XSS attacks.
+            if('logged_username' in data) {
+                var username = encodeURI(data['logged_username']);
+                var user = $('li').filter(function () {
+                    return $(this).data('username') === username;
+                });
+
+                if (data['is_logged_in']) {
+                    user.show();
+                }
+                else {
+                    user.hide();
+                }
+            }
+            if('purpose' in data){
+                if(data['purpose']==='Send_Request') {
+                    $('#modalBody').text(data['from']);
+                    $('#myModal').modal('show');
+                }
+                if(data['purpose']==='Accept_Request'){
+                    alert("Your request was accepted.");
+                    var pathto=sentTo+'_'+'{{ user.username }}';
+                    window.location.href = '/play/place/'+pathto;
+                }
+                if(data['purpose']==='Reject_Request'){
+                    $('#waitModal').modal('hide');
+                    alert("Your request was rejected. Lol.");
+                }
+                if(data['purpose']==='Cancel_Request'){
+                    $('#myModal').modal('hide');
+                }
+            }
+        };
+        var sentTo='';
+        $(document).on("click", "#l li" , function() {
+            var send_to_username=$(this).data('username');
+            sentTo = send_to_username;
+            if(send_to_username !== '{{ user.username }}') {
+                socket.send(JSON.stringify({
+                    'type': 'chat_message',
+                    'from': '{{ user.username }}',
+                    'to': send_to_username,
+                    'purpose': 'Send_Request'
+                }));
+                $('#waitModal').modal('show');
+            }
+        });
+        $(document).on("click","#accept",function () {
+            var send_to_username = receivedData['from'];
+            socket.send(JSON.stringify({
+                'type': 'chat_message',
+                'from': '{{ user.username }}',
+                'to': send_to_username,
+                'purpose': 'Accept_Request'
+            }));
+            var pathto='{{ user.username }}' + '_' + send_to_username;
             window.location.href = '/play/place/'+pathto;
-    });
-    $(document).on("click","#reject",function () {
-             var send_to_username = receivedData['from'];
-             socket.send(JSON.stringify({
-                 'type': 'chat_message',
-                 'from': '{{ user.username }}',
-                 'to': send_to_username,
-                 'purpose': 'Reject_Request'
-             }));
-    });
-    $(document).on("click","#cancel",function () {
-             socket.send(JSON.stringify({
-                 'type': 'chat_message',
-                 'from': '{{ user.username }}',
-                 'to': sentTo,
-                 'purpose': 'Cancel_Request'
-             }));
-    });
-    if (socket.readyState === WebSocket.OPEN) {
-      socket.onopen();
-    }
+        });
+        $(document).on("click","#reject",function () {
+            var send_to_username = receivedData['from'];
+            socket.send(JSON.stringify({
+                'type': 'chat_message',
+                'from': '{{ user.username }}',
+                'to': send_to_username,
+                'purpose': 'Reject_Request'
+            }));
+        });
+        $(document).on("click","#cancel",function () {
+            socket.send(JSON.stringify({
+                'type': 'chat_message',
+                'from': '{{ user.username }}',
+                'to': sentTo,
+                'purpose': 'Cancel_Request'
+            }));
+        });
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.onopen();
+        }
     </script>
 {% endblock %}

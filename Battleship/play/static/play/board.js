@@ -2,12 +2,11 @@
 
 'use strict';
 
-const e = React.createElement;
 
-class LikeButton extends React.Component {
+class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { liked: false };
+
   }
 
   render() {
@@ -22,7 +21,7 @@ class LikeButton extends React.Component {
     );
   }
 }
-const domContainer = document.querySelector('#like_button_container');
+const domContainer = document.querySelector('#board_container');
 $(document).ready(function () {
-    ReactDOM.render(e(LikeButton), domContainer);
+    ReactDOM.render(e(Board), domContainer);
 });
