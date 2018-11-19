@@ -56,5 +56,5 @@ class Board extends React.Component {
 }
 ReactDOM.render(
     <Board />,
-    document.getElementById('board_container')
+    document.getElementById('root')
 );
