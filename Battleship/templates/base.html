@@ -2,19 +2,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="{% static "play/css/bootstrap.min.css" %}">
-	<script src='{% static "play/js/jquery.min.js" %}'></script>
-	<script src='{% static "play/js/popper.min.js" %}'></script>
-	<script src='{% static "play/js/bootstrap.min.js" %}'></script>
+    <link rel="stylesheet" href="{% static "play/css/bootstrap.min.css" %}">
+    <script src='{% static "play/js/jquery.min.js" %}'></script>
+    <script src='{% static "play/js/popper.min.js" %}'></script>
+    <script src='{% static "play/js/bootstrap.min.js" %}'></script>
     <script src='{% static "play/react/react.development.js" %}'></script>
     <script src='{% static "play/react/react-dom.development.js" %}'></script>
-	<title>{%block title %}
-	Battleship {% endblock %}</title>
+    {% block style %} {% endblock %}
+    <title>{%block title %}
+        Battleship {% endblock %}</title>
 </head>
 <body>
-	<main>
-	{% block content %}
-	{% endblock %}
-	</main>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
 </body>
 </html>
