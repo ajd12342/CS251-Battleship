@@ -1,8 +1,33 @@
 {% extends 'base.html' %}
+{% block style %}
+    <style>
+        .btn_cust{
+            height: 40px;
+            width: 40px;
+            border-radius: 0;
+            border-color: #1b1e21;
+            border-style: solid;
+        }
+        .btn_cust.active.focus,
+        .btn_cust.active:focus,
+        .btn_cust.focus,
+        .btn_cust.focus:active,
+        .btn_cust:active:focus,
+        .btn_cust:focus {
+            box-shadow: none  !important;
+        }
+        .btn_cust:hover{
+            background-color: #e0a800;
+        }
+    </style>
+{% endblock %}
 {% block title %}Place Ships{% endblock %}
 
 {% block content %}
-    <div id="board_container"></div>
+    <div class="container">
+        <br>
+        <div id="board_container" class="row"></div>
+    </div>
     {% load static %}
     <script src='{% static "play/board.js" %}'></script>
 {% endblock %}
