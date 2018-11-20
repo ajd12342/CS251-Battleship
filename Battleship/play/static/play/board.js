@@ -1,3 +1,4 @@
+var counts=Array(5).fill(0);
 function Square(props) {
     return React.createElement(
         'button',
@@ -58,11 +59,38 @@ class Board extends React.Component {
                 },
             ));
         }
-        return React.createElement(
-            'div',
-            null,
-            rows
-        );
-    }
+        rows.push(React.createElement(
+            'h1',
+            {
+                key: 'choose',
+            },
+            'Choose ship type:'
+        ));
+        rows.push(React.createElement(
+            "form",
+            {
+                key: 'ship-form',
+            },
+            React.createElement("input", { type: "radio", name: "ship", value: "1", defaultChecked: true }),
+            "1*1",
+            React.createElement("br", null),
+            React.createElement("input", { type: "radio", name: "ship", value: "2" }),
+            "2*1",
+            React.createElement("br", null),
+            React.createElement("input", { type: "radio", name: "ship", value: "3" }),
+            "L-shaped",
+            React.createElement("br", null),
+            React.createElement("input", { type: "radio", name: "ship", value: "4" }),
+            "4*1",
+            React.createElement("br", null),
+            React.createElement("input", { type: "radio", name: "ship", value: "5" }),
+            "T-shaped",
+        ));
+    return React.createElement(
+    'div',
+    null,
+    rows
+);
+}
 }
 ReactDOM.render(React.createElement(Board, null), document.getElementById('board_container'));
