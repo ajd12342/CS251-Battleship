@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
+{% block style %}
+    <style>
+        .clickable:hover{
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
 {% block title %}Available players{% endblock %}
 {% block content %}
     <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top justify-content-end">
@@ -51,13 +58,22 @@
         </div>
     </div>
     {% if users %}
-        <ul id="l" style="list-style-type:none">
+        <ul id="l" style="list-style-type:none" class="container">
             {% for userit in users %}
                 <!-- NOTE: We escape HTML to prevent XSS attacks. -->
-                <li data-username="{{ userit.username|escape }}" class="jumbotron justify-content-center">
-                    <h5>{{ userit.username|escape }}</h5>
-                    {{ userit.bio|escape }}
-                    {{ userit.location|escape  }}
+                <li data-username="{{ userit.username|escape }}" class="jumbotron justify-content-center clickable">
+                    <h4 align="center">{{ userit.username|escape }}</h4>
+                    <hr>
+                    <table cellpadding="10px">
+                        <tr>
+                            <th>About</th>
+                            <td>{{ userit.profile.bio|escape }}</td>
+                        </tr>
+                        <tr>
+                            <th>Location</th>
+                            <td>{{ userit.profile.location|escape  }}</td>
+                        </tr>
+                    </table>
                 </li>
             {% endfor %}
         </ul>
