@@ -10,7 +10,7 @@ function Square(props) {
         'button',
         {
             onClick: props.onClick,
-            className: 'square btn btn-square '+props.value,
+            className: 'square btn btn_cust '+props.value,
         },
         '-'
     );
