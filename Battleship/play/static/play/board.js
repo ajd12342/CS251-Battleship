@@ -1,4 +1,10 @@
-var counts=Array(5).fill(0);
+var counts=Array(6).fill(0);
+var upperCount=Array(6).fill(0);
+upperCount[1]=3;
+upperCount[2]=2;
+upperCount[3]=1;
+upperCount[4]=1;
+upperCount[5]=1;
 function Square(props) {
     return React.createElement(
         'button',
@@ -24,12 +30,81 @@ class Board extends React.Component {
             squareType: y.fill(Array(10).fill('')),
         };
     }
-    handleClick(i, j) {
+    handleClick(j, i) {
         let squares=jQuery.extend(true, {}, this.state.squares);
-        squares[i][j] = 1;
-        this.setState({
-            squares: squares,
-        });
+        let squareType=jQuery.extend(true, {}, this.state.squareType);
+        let c=$('input[name=ship]:checked');
+        if(c.length> 0){
+            let choice=c[0];
+            let shape=choice.value;
+            let orientation=parseInt($('input[name=orientation]').val(),10);
+            let ret=true;
+            let xToCheck=[];
+            let yToCheck=[];
+            xToCheck.push(i);
+            yToCheck.push(j);
+            if(shape==='1'){
+            }else if(shape==='2'){
+                xToCheck.push(i+(orientation-3)*(orientation%2-1));
+                yToCheck.push(j+(orientation-2)*(orientation%2));
+            }else if(shape==='3'){
+                xToCheck.push(i);
+                yToCheck.push(j- (((orientation===1)||(orientation===4))?1:0) + (((orientation===2)||(orientation===3))?1:0));
+                xToCheck.push(i+(((orientation===1)||(orientation===2))?1:0) - (((orientation===3)||(orientation===4))?1:0));
+                yToCheck.push(j);
+            }else if(shape==='4'){
+                if(orientation%2===1){
+                    for(let k=1;k<=3;k++){
+                        xToCheck.push(i);
+                        yToCheck.push(j-(k)*(2-orientation));
+                    }
+                }
+                if(orientation%2===0){
+                    for(let k=1;k<=3;k++){
+                        xToCheck.push(i+(k)*(3-orientation));
+                        yToCheck.push(j);
+                    }
+                }
+            }else if(shape==='5'){
+                if(orientation%2===1){
+                    xToCheck.push(i+1);
+                    xToCheck.push(i-1);
+                    yToCheck.push(j);
+                    yToCheck.push(j);
+                    for(let k=1;k<=2;k++){
+                        xToCheck.push(i);
+                        yToCheck.push(j-(k)*(2-orientation));
+                    }
+                }
+                if(orientation%2===0){
+                    xToCheck.push(i);
+                    xToCheck.push(i);
+                    yToCheck.push(j+1);
+                    yToCheck.push(j-1);
+                    for(let k=1;k<=2;k++){
+                        xToCheck.push(i+(k)*(3-orientation));
+                        yToCheck.push(j);
+                    }
+                }
+            }
+            for(let k=0;k<xToCheck.length;k++){
+                if(xToCheck[k]>9 || xToCheck[k]<0 || yToCheck[k]>9 || yToCheck[k]<0
+                    || squares[yToCheck[k]][xToCheck[k]]===1){
+                    ret=false;
+                }
+            }
+            if(ret&&counts[shape]<upperCount[shape]) {
+                counts[shape]++;
+                for(let k=0;k<xToCheck.length;k++){
+                    squares[yToCheck[k]][xToCheck[k]]=1;
+                    squareType[yToCheck[k]][xToCheck[k]]=shape;
+                }
+                this.setState({
+                    squares: squares,
+                    squareType: squareType,
+                });
+            }
+        }
     }
     renderSquare(i, j) {
         let k=10*i+j;
@@ -71,26 +146,32 @@ class Board extends React.Component {
             {
                 key: 'ship-form',
             },
-            React.createElement("input", { type: "radio", name: "ship", value: "1", defaultChecked: true }),
+            React.createElement("input", { type: "radio", name: "ship", value: "1", orientationv: "1", defaultChecked: true }),
             "1*1",
             React.createElement("br", null),
-            React.createElement("input", { type: "radio", name: "ship", value: "2" }),
+            React.createElement("input", { type: "radio", name: "ship", value: "2", orientationv: "1" }),
             "2*1",
             React.createElement("br", null),
-            React.createElement("input", { type: "radio", name: "ship", value: "3" }),
+            React.createElement("input", { type: "radio", name: "ship", value: "3",orientationv: "1" }),
             "L-shaped",
             React.createElement("br", null),
-            React.createElement("input", { type: "radio", name: "ship", value: "4" }),
+            React.createElement("input", { type: "radio", name: "ship", value: "4",orientationv: "1" }),
             "4*1",
             React.createElement("br", null),
-            React.createElement("input", { type: "radio", name: "ship", value: "5" }),
+            React.createElement("input", { type: "radio", name: "ship", value: "5",orientationv: "1" }),
             "T-shaped",
+            React.createElement("br", null),
+            React.createElement("input",{type: "text", name: "orientation",defaultValue: "1"}),
         ));
-    return React.createElement(
-    'div',
-    null,
-    rows
-);
+        return React.createElement(
+            'div',
+            null,
+            rows
+        );
+    }
 }
+let b=React.createElement(Board,null);
+function check(i,j,shape,orientation,squares){
+
 }
-ReactDOM.render(React.createElement(Board, null), document.getElementById('board_container'));
+ReactDOM.render(b, document.getElementById('board_container'));
