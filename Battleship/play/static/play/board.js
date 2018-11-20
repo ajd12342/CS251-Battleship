@@ -2,38 +2,43 @@ function Square(props) {
     return React.createElement(
         'button',
         {
-            className: 'square',
-            onClick: props.onClick },
-        props.value
+            onClick: props.onClick,
+            className: 'square btn btn_cust '+props.value,
+        },
     );
 }
 class Board extends React.Component {
     constructor(props) {
         super(props);
         var x = new Array(10);
-
+        var y= new Array(10);
         for (var i = 0; i < x.length; i++) {
             x[i] = new Array(10);
+            y[i]=new Array(10);
         }
 
         this.state = {
-            squares: x.fill(Array(10).fill(1))
+            squares: x.fill(Array(10).fill(0)),
+            squareType: y.fill(Array(10).fill('')),
         };
     }
     handleClick(i, j) {
-        var squares = new Array(10);
-        for (var k = 0; k < squares.length; k++) {
-            squares[k] = this.state.squares[i].slice();
-        }
-        squares[i][j] = 2;
+        let squares=jQuery.extend(true, {}, this.state.squares);
+        squares[i][j] = 1;
         this.setState({
-            squares: squares
+            squares: squares,
         });
     }
     renderSquare(i, j) {
+        let k=10*i+j;
+        let colour='btn-default';
+        if(this.state.squares[i][j]===1){
+            colour='btn-primary';
+        }
         return React.createElement(Square, {
-            value: this.state.squares[i][j],
-            onClick: () => this.handleClick(i, j)
+            value: colour,
+            onClick: () => this.handleClick(i, j),
+            key: k,
         });
     }
     render() {
@@ -45,6 +50,12 @@ class Board extends React.Component {
                 // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
                 rows.push(this.renderSquare(i, j));
             }
+            rows.push(React.createElement(
+                'br',
+                {
+                    key: 'b'+i.toString(),
+                },
+            ));
         }
         return React.createElement(
             'div',
