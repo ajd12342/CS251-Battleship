@@ -10,3 +10,12 @@ Battleship Game for CS-251 Course Project.
  - Head to a browser and go to `localhost:8000/pairing/`
  - Enjoy the game :smiley:
  
+ ## Dependencies
+ - 
+ -
+ - 
+ - 
+ 
+ 
+## An Example Placing of Ships
+![alt text](https://github.com/ajd12342/CS251-Battleship/blob/master/sample.png)
