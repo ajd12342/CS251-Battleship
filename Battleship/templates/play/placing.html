@@ -29,9 +29,6 @@
             cursor: pointer;
             font-size: 25px;
         }
-        ul[id='ul'] > li > input:checked + label {
-            background: red;
-        }
     </style>
 {% endblock %}
 {% block title %}Place Ships{% endblock %}
@@ -43,6 +40,7 @@
     </div>
     {% load static %}
     <script>
+        var prev="1";
         var counts=Array(6).fill(0);
         var upperCount=Array(6).fill(0);
         upperCount[1]=3;
@@ -96,11 +94,11 @@
                 let squares=jQuery.extend(true, {}, this.state.squares);
                 let iOfSquaresOfType=jQuery.extend(true, {}, this.state.iOfSquaresOfType);
                 let jOfSquaresOfType=jQuery.extend(true, {}, this.state.jOfSquaresOfType);
-                let c=$('input[name=ship]:checked');
+                let c=$('#s'+prev);
                 if(c.length> 0){
                     let choice=c[0];
                     let shape=choice.value;
-                    let orientation=parseInt($('input[name=orientation]').val(),10);
+                    let orientation=(c.data('orientationv'))||1;
                     let ret=true;
                     let xToCheck=[];
                     let yToCheck=[];
@@ -193,12 +191,56 @@
                     }));
                 }
             }
-
+            rotateShip(id){
+                let s = $('#ship'+id);
+                let r = $('#s'+id);
+                if(id!==prev){
+                    prev=id;
+                    return;
+                }
+                s.css({'transition': 'all 0.5s ease'});
+                var angle = (s.data('angle')+90) || 90;
+                var orient = (r.data('orientationv')) || 1;
+                orient = (orient+1 > 4)? 1:(orient+1);
+                s.css({'transform': 'rotate(' + angle + 'deg)'});
+                s.data('angle', angle);
+                r.data('orientationv', orient);
+                prev=id;
+            }
             renderSquare(i, j) {
                 let k = 10 * i + j;
-                let colour = 'btn-default';
+                let type=0;
+                //console.log(this.state.jOfSquaresOfType);
+                //console.log(this.state.iOfSquaresOfType);
+                for(let k1=1;k1<=5;k1++){
+                    for(let k2=0;k2<this.state.iOfSquaresOfType[k1].length;k2++) {
+                        // console.log(this.state.iOfSquaresOfType[k1]===i);
+                        if (this.state.iOfSquaresOfType[k1][k2] === i && this.state.jOfSquaresOfType[k1][k2] === j) {
+                            console.log("E");
+                            type = k1;
+                        }
+                    }
+                }
+                let colour = 'btn-defaul{t';
                 if (this.state.squares[i][j] === 1) {
-                    colour = 'btn-success';
+                    if(type===0){
+                        colour='btn-secondary';
+                    }
+                    else if(type===1){
+                        colour = 'btn-success';
+                    }
+                    else if(type===2){
+                        colour = 'btn-primary';
+                    }
+                    else if(type===3){
+                        colour = 'btn-warning';
+                    }
+                    else if(type===4){
+                        colour = 'btn-info';
+                    }
+                    else if(type===5){
+                        colour = 'btn-danger';
+                    }
                 }
                 return React.createElement(Square, {
                     value: colour,
@@ -244,11 +286,22 @@
                             {
                                 id: '1',
                             },
-                            React.createElement("input", { type: "radio", name: "ship", id: 's1', value: "1", orientationv: "1", defaultChecked: true }),
+                            React.createElement(
+                                "input",
+                                {
+                                    type: "radio",
+                                    name: "ship",
+                                    id: 's1',
+                                    value: "1",
+                                    orientationv: "1",
+                                    defaultChecked: true,
+                                    onClick: () => this.rotateShip("1"),
+                                }
+                            ),
                             React.createElement(
                                 "label",
                                 {htmlFor: "s1",},
-                                React.createElement("img", { src: "{% static play %}/images/s1.png"})
+                                React.createElement("img", { src: "{% static play %}/images/s1.png", id: "ship1", })
                             ),
                         ),
                         React.createElement(
@@ -256,11 +309,22 @@
                             {
                                 id: '2',
                             },
-                            React.createElement("input", { type: "radio", name: "ship", id: 's2', value: "2", orientationv: "1"}),
+                            React.createElement(
+                                "input",
+                                {
+                                    type: "radio",
+                                    name: "ship",
+                                    id: 's2',
+                                    value: "2",
+                                    orientationv: "1",
+                                    defaultChecked: true,
+                                    onClick: () => this.rotateShip("2"),
+                                }
+                            ),
                             React.createElement(
                                 "label",
-                                {htmlFor: "s2"},
-                                React.createElement("img", { src: "{% static play %}/images/s2.png"})
+                                {htmlFor: "s2",},
+                                React.createElement("img", { src: "{% static play %}/images/s2.png", id: "ship2", })
                             ),
                         ),
                         React.createElement(
@@ -268,11 +332,22 @@
                             {
                                 id: '3',
                             },
-                            React.createElement("input", { type: "radio", name: "ship", id: 's3', value: "3", orientationv: "1"}),
+                            React.createElement(
+                                "input",
+                                {
+                                    type: "radio",
+                                    name: "ship",
+                                    id: 's3',
+                                    value: "3",
+                                    orientationv: "1",
+                                    defaultChecked: true,
+                                    onClick: () => this.rotateShip("3"),
+                                }
+                            ),
                             React.createElement(
                                 "label",
-                                {htmlFor: "s3"},
-                                React.createElement("img", { src: "{% static play %}/images/s3.png"})
+                                {htmlFor: "s3",},
+                                React.createElement("img", { src: "{% static play %}/images/s3.png", id: "ship3", })
                             ),
                         ),
                         React.createElement(
@@ -280,11 +355,22 @@
                             {
                                 id: '4',
                             },
-                            React.createElement("input", { type: "radio", name: "ship", id: 's4', value: "4", orientationv: "1"}),
+                            React.createElement(
+                                "input",
+                                {
+                                    type: "radio",
+                                    name: "ship",
+                                    id: 's4',
+                                    value: "4",
+                                    orientationv: "1",
+                                    defaultChecked: true,
+                                    onClick: () => this.rotateShip("4"),
+                                }
+                            ),
                             React.createElement(
                                 "label",
-                                {htmlFor: "s4"},
-                                React.createElement("img", { src: "{% static play %}/images/s4.png"})
+                                {htmlFor: "s4",},
+                                React.createElement("img", { src: "{% static play %}/images/s4.png", id: "ship4", })
                             ),
                         ),
                         React.createElement(
@@ -292,22 +378,25 @@
                             {
                                 id: '5',
                             },
-                            React.createElement("input", { type: "radio", name: "ship", id: 's5', value: "5", orientationv: "1"}),
+                            React.createElement(
+                                "input",
+                                {
+                                    type: "radio",
+                                    name: "ship",
+                                    id: 's5',
+                                    value: "5",
+                                    orientationv: "1",
+                                    defaultChecked: true,
+                                    onClick: () => this.rotateShip("5"),
+                                }
+                            ),
                             React.createElement(
                                 "label",
-                                {htmlFor: "s5"},
-                                React.createElement("img", { src: "{% static play %}/images/s5.png"})
+                                {htmlFor: "s5",},
+                                React.createElement("img", { src: "{% static play %}/images/s5.png", id: "ship5", })
                             ),
-                        )
+                        ),
                     ),
-                    React.createElement(
-                        'input',
-                        {
-                            name: 'orientation',
-                            defaultValue: '1',
-                        }
-
-                    )
                 ));
                 rows.push(React.createElement(
                     'button',
