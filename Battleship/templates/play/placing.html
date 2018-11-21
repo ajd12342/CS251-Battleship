@@ -89,11 +89,11 @@
                 let squares=jQuery.extend(true, {}, this.state.squares);
                 let iOfSquaresOfType=jQuery.extend(true, {}, this.state.iOfSquaresOfType);
                 let jOfSquaresOfType=jQuery.extend(true, {}, this.state.jOfSquaresOfType);
-                let c=$('input[name=ship]:checked');
+                let c=$('#s'+prev);
                 if(c.length> 0){
                     let choice=c[0];
                     let shape=choice.value;
-                    let orientation=($('#s'+prev).data('orientationv'))||1;
+                    let orientation=(c.data('orientationv'))||1;
                     let ret=true;
                     let xToCheck=[];
                     let yToCheck=[];
