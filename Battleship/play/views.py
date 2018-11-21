@@ -10,6 +10,6 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-
+@login_required
 def placing(request, room_name):
     return render(request,'play/placing.html',{'room_name': mark_safe(room_name)})

@@ -12,7 +12,7 @@ function Square(props) {
             onClick: props.onClick,
             className: 'square btn btn_cust '+props.value,
         },
-        '-'
+         null,
     );
 }
 class Board extends React.Component {
@@ -170,8 +170,7 @@ class Board extends React.Component {
         );
     }
 }
-let b=React.createElement(Board,null);
-function check(i,j,shape,orientation,squares){
 
-}
+let b=React.createElement(Board,null);
+
 ReactDOM.render(b, document.getElementById('board_container'));
