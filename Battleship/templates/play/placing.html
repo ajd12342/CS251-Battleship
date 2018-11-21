@@ -55,6 +55,9 @@
         if (socket.readyState === WebSocket.OPEN) {
             socket.onopen();
         }
+        socket.onmessage = function message(event) {
+            var data = JSON.parse(event.data);
+        }
         function Square(props) {
             return React.createElement(
                 'button',
@@ -174,9 +177,8 @@
                     alert("Place all ships.");
                 }else{
                     socket.send(JSON.stringify({
-                        'type': 'submitted',
+                        'type': 'for_Django',
                         'from': '{{ user.username }}',
-                        'to': '',
                         'purpose': 'Send_Request'
                     }));
                 }

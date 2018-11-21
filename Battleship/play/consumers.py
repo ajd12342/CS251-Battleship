@@ -6,8 +6,8 @@ class SubmitConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.user=self.scope["user"]
-        self.room_name = "list"
-        self.room_group_name = 'chat_list'
+        self.room_name = "placing"
+        self.room_group_name = 'chat_placing'
 
         # Join room group
         await self.channel_layer.group_add(
@@ -23,8 +23,6 @@ class SubmitConsumer(AsyncWebsocketConsumer):
             }
         )
         await self.accept()
-        self.user.profile.isAvailable=True
-        self.user.profile.save()
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -40,8 +38,6 @@ class SubmitConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        self.user.profile.isAvailable = False
-        self.user.profile.save()
 
     # Receive message from WebSocket
     async def receive(self, text_data=None, bytes_data=None):
@@ -50,24 +46,11 @@ class SubmitConsumer(AsyncWebsocketConsumer):
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
-            {
-                'type': 'chat_message',
-                'from': text_data_json['from'],
-                'to': text_data_json['to'],
-                'purpose': text_data_json['purpose']
-            }
+            text_data_json
         )
 
     # Receive message from room group
-    async def chat_message(self, event):
-        ret={}
-        if('purpose' in event):
-            if event['to']==self.user.username and event['to'] != event['from']:
-                ret=event
-        # if event['to']==self.user.username:
-        #     print("Works")
-        else:
-            # Send message to WebSocket
-            ret=event
-
-        await self.send(text_data=json.dumps(ret))
+    async def for_Django(self, event):
+        pass
+    async def for_User(self,event):
+        await self.send(text_data=json.dumps(event))
