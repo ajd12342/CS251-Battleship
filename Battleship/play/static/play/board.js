@@ -206,9 +206,9 @@ class Board extends React.Component {
                 key:'submit',
                 id: 'submit',
                 className: 'btn btn-success',
-                onClick
-            }
-            Submit
+                onClick: this.submitClick(),
+            },
+            'Submit'
         ));
         return React.createElement(
             'div',
