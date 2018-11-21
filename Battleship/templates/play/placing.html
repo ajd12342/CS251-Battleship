@@ -16,6 +16,22 @@
         .btn_cust:focus {
             box-shadow: none  !important;
         }
+        ul[id='ul']{
+            list-style: none;
+        }
+        ul[id='ul'] > li{
+            display: inline-block;
+        }
+        ul[id='ul'] > li > input{
+            visibility: hidden;
+        }
+        ul[id='ul'] > li > label {
+            cursor: pointer;
+            font-size: 25px;
+        }
+        ul[id='ul'] > li > input:checked + label {
+            background: red;
+        }
     </style>
 {% endblock %}
 {% block title %}Place Ships{% endblock %}
@@ -165,11 +181,12 @@
                     }));
                 }
             }
+
             renderSquare(i, j) {
-                let k=10*i+j;
-                let colour='btn-default';
-                if(this.state.squares[i][j]===1){
-                    colour='btn-success';
+                let k = 10 * i + j;
+                let colour = 'btn-default';
+                if (this.state.squares[i][j] === 1) {
+                    colour = 'btn-success';
                 }
                 return React.createElement(Square, {
                     value: colour,
@@ -216,7 +233,11 @@
                                 id: '1',
                             },
                             React.createElement("input", { type: "radio", name: "ship", id: 's1', value: "1", orientationv: "1", defaultChecked: true }),
-                            React.createElement("label",{htmlFor: "s1"},'1*1'),
+                            React.createElement(
+                                "label",
+                                {htmlFor: "s1",},
+                                React.createElement("img", { src: "{% static play %}/images/s1.png"})
+                            ),
                         ),
                         React.createElement(
                             'li',
@@ -224,7 +245,11 @@
                                 id: '2',
                             },
                             React.createElement("input", { type: "radio", name: "ship", id: 's2', value: "2", orientationv: "1"}),
-                            React.createElement("label",{htmlFor: "s2"},'2*1'),
+                            React.createElement(
+                                "label",
+                                {htmlFor: "s2"},
+                                React.createElement("img", { src: "{% static play %}/images/s2.png"})
+                            ),
                         ),
                         React.createElement(
                             'li',
@@ -232,7 +257,11 @@
                                 id: '3',
                             },
                             React.createElement("input", { type: "radio", name: "ship", id: 's3', value: "3", orientationv: "1"}),
-                            React.createElement("label",{htmlFor: "s3"},'L-shaped'),
+                            React.createElement(
+                                "label",
+                                {htmlFor: "s3"},
+                                React.createElement("img", { src: "{% static play %}/images/s3.png"})
+                            ),
                         ),
                         React.createElement(
                             'li',
@@ -240,7 +269,11 @@
                                 id: '4',
                             },
                             React.createElement("input", { type: "radio", name: "ship", id: 's4', value: "4", orientationv: "1"}),
-                            React.createElement("label",{htmlFor: "s4"},'4*1'),
+                            React.createElement(
+                                "label",
+                                {htmlFor: "s4"},
+                                React.createElement("img", { src: "{% static play %}/images/s4.png"})
+                            ),
                         ),
                         React.createElement(
                             'li',
@@ -248,7 +281,11 @@
                                 id: '5',
                             },
                             React.createElement("input", { type: "radio", name: "ship", id: 's5', value: "5", orientationv: "1"}),
-                            React.createElement("label",{htmlFor: "s5"},'T-shaped'),
+                            React.createElement(
+                                "label",
+                                {htmlFor: "s5"},
+                                React.createElement("img", { src: "{% static play %}/images/s5.png"})
+                            ),
                         )
                     ),
                     React.createElement(
