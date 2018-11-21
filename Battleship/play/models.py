@@ -5,8 +5,11 @@ from picklefield.fields import PickledObjectField
 class PlayerPieces(models.Model):
     noOfSunkShips = models.IntegerField()
     # 3 of 1*1, 2 of 2*1, 1 of 4*1, 1 of 3 square L, 1 of 5 square T
-    positions = PickledObjectField()
-    # String corr to shape : (set of (coordinates,hit) , no of squares left)
+    squares = PickledObjectField()
+    # 0 not filled, 1 filled, 2 clicked
+    iOfSquaresOfType= PickledObjectField()
+    jOfSquaresOfType= PickledObjectField()
+    squaresLeft=PickledObjectField()
     whichShipsSunk=PickledObjectField()
 
 class Game(models.Model):
@@ -14,7 +17,6 @@ class Game(models.Model):
     player2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player2')
     player1Pieces = models.ForeignKey(PlayerPieces, on_delete=models.CASCADE, related_name='player1Pieces')
     player2Pieces = models.ForeignKey(PlayerPieces,on_delete=models.CASCADE,related_name='player2Pieces')
-    player1Forbidden = PickledObjectField()  # 2D Grid
-    player2Forbidden = PickledObjectField()  # 2D Grid
+    player1Placed=models.BooleanField()
+    player2Placed=models.BooleanField()
     activePlayerIs1=models.BooleanField()
-    gameID=models.BigIntegerField()

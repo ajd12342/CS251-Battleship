@@ -57,7 +57,12 @@
         }
         socket.onmessage = function message(event) {
             var data = JSON.parse(event.data);
-        }
+            if('game_id' in data && data['game_id']==={{ room_name }}){
+                if(data['status']==='Complete'){
+                    window.location.href = '/play/game/'+'{{ room_name }}';
+                }
+            }
+        };
         function Square(props) {
             return React.createElement(
                 'button',
@@ -177,9 +182,14 @@
                     alert("Place all ships.");
                 }else{
                     socket.send(JSON.stringify({
-                        'type': 'for_Django',
+                        'type': 'chat_message',
+                        'intended':'for_Django',
                         'from': '{{ user.username }}',
-                        'purpose': 'Send_Request'
+                        'purpose': 'Placing done',
+                        'squares': this.state.squares,
+                        'iOfSquaresOfType':this.state.iOfSquaresOfType,
+                        'jOfSquaresOfType': this.state.jOfSquaresOfType,
+                        'game_id': {{ room_name }}
                     }));
                 }
             }

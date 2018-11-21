@@ -1,6 +1,8 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from django.contrib.auth.models import User
+from .models import Game,PlayerPieces
+from picklefield.fields import PickledObjectField
 class SubmitConsumer(AsyncWebsocketConsumer):
 
 
@@ -14,26 +16,10 @@ class SubmitConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type':'chat_message',
-                'logged_username':self.user.username,
-                'is_logged_in':True
-            }
-        )
         await self.accept()
 
     async def disconnect(self, close_code):
         # Leave room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'logged_username': self.user.username,
-                'is_logged_in':False
-            }
-        )
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -50,7 +36,39 @@ class SubmitConsumer(AsyncWebsocketConsumer):
         )
 
     # Receive message from room group
-    async def for_Django(self, event):
-        pass
-    async def for_User(self,event):
-        await self.send(text_data=json.dumps(event))
+    async def chat_message(self, event):
+        print(event)
+        if(event['purpose']=='Placing done'):
+            g=Game.objects.get(pk=event['game_id'])
+            if(self.user.username==event['from']):
+
+                if(g.player1.username==event['from']):
+                    print("enter")
+                    g.player1Placed=True
+                    g.player1Pieces.noOfSunkShips=0
+                    g.player1Pieces.squares=event['squares']
+                    g.player1Pieces.iOfSquaresOfType=event['iOfSquaresOfType']
+                    g.player1Pieces.jOfSquaresOfType=event['jOfSquaresOfType']
+                    g.player1Pieces.squaresLeft=[0,2,3,1,1,1]
+                    g.player1Pieces.whichShipsSunk=[False,False,False,False,False,False]
+                    g.player1Pieces.save()
+                    g.save()
+                if (g.player2.username == event['from']):
+                    g.player2Placed = True
+                    g.player2Pieces.noOfSunkShips = 0
+                    g.player2Pieces.squares = event['squares']
+                    g.player2Pieces.iOfSquaresOfType = event['iOfSquaresOfType']
+                    g.player2Pieces.jOfSquaresOfType = event['jOfSquaresOfType']
+                    g.player2Pieces.squaresLeft = [0, 2, 3, 1, 1, 1]
+                    g.player2Pieces.whichShipsSunk = [False, False, False, False, False, False]
+                    g.player2Pieces.save()
+                    g.save()
+            if(g.player1Placed and g.player2Placed):
+                await self.send(text_data=json.dumps({
+                    'status':'Complete',
+                    'game_id':event['game_id']
+                }))
+
+
+
+

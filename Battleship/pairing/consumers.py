@@ -61,26 +61,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if('purpose' in event):
             if event['to']==self.user.username and event['to'] != event['from']:
                 ret=event
-                print(event)
                 if(event['purpose']=='Accept_Request'):
-                    fname=os.path.join('play','noOfGames.txt')
-                    f = open(fname, 'r')
-                    v = int(f.readline())
-                    f.close()
-                    Game.objects.create(player1=self.user,
-                                        player2=User.objects.get(username=event['from']),
-                                        player1Pieces=PlayerPieces.objects.create(
-                                            noOfSunkShips=0,
-                                        ),
-                                        player2Pieces=PlayerPieces.objects.create(
-                                            noOfSunkShips=0),
-                                        activePlayerIs1=True,
-                                        gameID=v
-                                        )
-                    ret['game_id'] = v
-                    f = open(fname, 'w')
-                    f.write(str(v+1))
-                    f.close()
+                    g=Game.objects.create(player1=self.user,
+                                          player2=User.objects.get(username=event['from']),
+                                          player1Pieces=PlayerPieces.objects.create(
+                                              noOfSunkShips=0,
+                                          ),
+                                          player2Pieces=PlayerPieces.objects.create(
+                                              noOfSunkShips=0),
+                                          activePlayerIs1=True,
+                                          player1Placed=False,
+                                          player2Placed=False
+                                          )
+                    ret['game_id'] = g.id
         # if event['to']==self.user.username:
         #     print("Works")
         else:
