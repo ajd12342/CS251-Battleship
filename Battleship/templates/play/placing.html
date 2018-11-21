@@ -189,6 +189,8 @@
                         'jOfSquaresOfType': this.state.jOfSquaresOfType,
                         'game_id': {{ room_name }}
                     }));
+                    $('#submit').attr('disabled',true);
+                    $('#waitingFor').html("Waiting for other player.");
                 }
             }
             rotateShip(id){
@@ -265,7 +267,7 @@
                     ));
                 }
                 rows.push(React.createElement(
-                    'h1',
+                    'h4',
                     {
                         key: 'choose',
                     },
@@ -407,6 +409,13 @@
                         onClick: () => this.submitClick(),
                     },
                     'Submit'
+                ));
+                rows.push(React.createElement(
+                   'h4',
+                    {
+                        id: 'waitingFor'
+                    },
+
                 ));
                 return React.createElement(
                     'div',
