@@ -17,3 +17,4 @@ class Game(models.Model):
     player1Forbidden = PickledObjectField()  # 2D Grid
     player2Forbidden = PickledObjectField()  # 2D Grid
     activePlayerIs1=models.BooleanField()
+    gameID=models.BigIntegerField()

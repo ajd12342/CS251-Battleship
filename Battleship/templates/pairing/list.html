@@ -99,7 +99,7 @@
         socket.onopen = function open() {
             console.log('WebSockets connection created.');
         };
-
+        var sentTo='';
         socket.onmessage = function message(event) {
             var data = JSON.parse(event.data);
             receivedData=data;
@@ -123,8 +123,9 @@
                     $('#myModal').modal('show');
                 }
                 if(data['purpose']==='Accept_Request'){
-                    alert("Your request was accepted.");
-                    var pathto=sentTo+'_'+'{{ user.username }}';
+                    //alert("Your request was accepted.");
+                    sendID(data['game_id']);
+                    let pathto=data['game_id'];
                     window.location.href = '/play/place/'+pathto;
                 }
                 if(data['purpose']==='Reject_Request'){
@@ -134,9 +135,22 @@
                 if(data['purpose']==='Cancel_Request'){
                     $('#myModal').modal('hide');
                 }
+                if(data['purpose']==='Game_ID'){
+                    let pathto=data['game_id'];
+                    //alert(data['game_id']);
+                    window.location.href = '/play/place/'+pathto;
+                }
+            }
+            function sendID(game_id) {
+                socket.send(JSON.stringify({
+                    'type': 'chat_message',
+                    'from': '{{ user.username }}',
+                    'to': sentTo,
+                    'game_id': game_id,
+                    'purpose': 'Game_ID'
+                }));
             }
         };
-        var sentTo='';
         $(document).on("click", "#l li" , function() {
             var send_to_username=$(this).data('username');
             sentTo = send_to_username;
@@ -158,8 +172,6 @@
                 'to': send_to_username,
                 'purpose': 'Accept_Request'
             }));
-            var pathto='{{ user.username }}' + '_' + send_to_username;
-            window.location.href = '/play/place/'+pathto;
         });
         $(document).on("click","#reject",function () {
             var send_to_username = receivedData['from'];

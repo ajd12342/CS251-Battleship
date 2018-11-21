@@ -1,9 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-from play.models import Game,PlayerPieces
 from django.contrib.auth.models import User
-import os
-class ChatConsumer(AsyncWebsocketConsumer):
+class SubmitConsumer(AsyncWebsocketConsumer):
 
 
     async def connect(self):
@@ -52,7 +50,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
-            text_data_json
+            {
+                'type': 'chat_message',
+                'from': text_data_json['from'],
+                'to': text_data_json['to'],
+                'purpose': text_data_json['purpose']
+            }
         )
 
     # Receive message from room group
@@ -61,26 +64,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if('purpose' in event):
             if event['to']==self.user.username and event['to'] != event['from']:
                 ret=event
-                print(event)
-                if(event['purpose']=='Accept_Request'):
-                    fname=os.path.join('play','noOfGames.txt')
-                    f = open(fname, 'r')
-                    v = int(f.readline())
-                    f.close()
-                    Game.objects.create(player1=self.user,
-                                        player2=User.objects.get(username=event['from']),
-                                        player1Pieces=PlayerPieces.objects.create(
-                                            noOfSunkShips=0,
-                                        ),
-                                        player2Pieces=PlayerPieces.objects.create(
-                                            noOfSunkShips=0),
-                                        activePlayerIs1=True,
-                                        gameID=v
-                                        )
-                    ret['game_id'] = v
-                    f = open(fname, 'w')
-                    f.write(str(v+1))
-                    f.close()
         # if event['to']==self.user.username:
         #     print("Works")
         else:
