@@ -113,6 +113,9 @@ class Board extends React.Component {
             }
         }
     }
+    submitClick(){
+        alert("Boing");
+    }
     renderSquare(i, j) {
         let k=10*i+j;
         let colour='btn-default';
@@ -199,6 +202,14 @@ class Board extends React.Component {
                     React.createElement("label",{htmlFor: "s5"},'T-shaped'),
                 )
             ),
+            React.createElement(
+                'input',
+                {
+                    name: 'orientation',
+                    defaultValue: '1',
+                }
+
+            )
         ));
         rows.push(React.createElement(
             'button',
@@ -206,7 +217,7 @@ class Board extends React.Component {
                 key:'submit',
                 id: 'submit',
                 className: 'btn btn-success',
-                onClick: this.submitClick(),
+                onClick: () => this.submitClick(),
             },
             'Submit'
         ));
