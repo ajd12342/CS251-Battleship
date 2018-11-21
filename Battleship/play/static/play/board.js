@@ -19,20 +19,25 @@ class Board extends React.Component {
     constructor(props) {
         super(props);
         var x = new Array(10);
-        var y= new Array(10);
+        var y= new Array(6);
+        let z=new Array(6);
         for (var i = 0; i < x.length; i++) {
             x[i] = new Array(10);
-            y[i]=new Array(10);
         }
-
+        for(let i=1;i<y.length;i++){
+            y[i]=[];
+            z[i]=[];
+        }
         this.state = {
             squares: x.fill(Array(10).fill(0)),
-            squareType: y.fill(Array(10).fill('')),
+            iOfSquaresOfType: y,
+            jOfSquaresOfType: z,
         };
     }
     handleClick(j, i) {
         let squares=jQuery.extend(true, {}, this.state.squares);
-        let squareType=jQuery.extend(true, {}, this.state.squareType);
+        let iOfSquaresOfType=jQuery.extend(true, {}, this.state.iOfSquaresOfType);
+        let jOfSquaresOfType=jQuery.extend(true, {}, this.state.jOfSquaresOfType);
         let c=$('input[name=ship]:checked');
         if(c.length> 0){
             let choice=c[0];
@@ -97,11 +102,13 @@ class Board extends React.Component {
                 counts[shape]++;
                 for(let k=0;k<xToCheck.length;k++){
                     squares[yToCheck[k]][xToCheck[k]]=1;
-                    squareType[yToCheck[k]][xToCheck[k]]=shape;
+                    iOfSquaresOfType[shape].push(yToCheck[k]);
+                    jOfSquaresOfType[shape].push(xToCheck[k]);
                 }
                 this.setState({
                     squares: squares,
-                    squareType: squareType,
+                    iOfSquaresOfType: iOfSquaresOfType,
+                    jOfSquaresOfType: jOfSquaresOfType,
                 });
             }
         }
@@ -146,22 +153,58 @@ class Board extends React.Component {
             {
                 key: 'ship-form',
             },
-            React.createElement("input", { type: "radio", name: "ship", value: "1", orientationv: "1", defaultChecked: true }),
-            "1*1",
-            React.createElement("br", null),
-            React.createElement("input", { type: "radio", name: "ship", value: "2", orientationv: "1" }),
-            "2*1",
-            React.createElement("br", null),
-            React.createElement("input", { type: "radio", name: "ship", value: "3",orientationv: "1" }),
-            "L-shaped",
-            React.createElement("br", null),
-            React.createElement("input", { type: "radio", name: "ship", value: "4",orientationv: "1" }),
-            "4*1",
-            React.createElement("br", null),
-            React.createElement("input", { type: "radio", name: "ship", value: "5",orientationv: "1" }),
-            "T-shaped",
-            React.createElement("br", null),
-            React.createElement("input",{type: "text", name: "orientation",defaultValue: "1"}),
+            React.createElement(
+                'ul',
+                {
+                    id: 'ul',
+                },
+                React.createElement(
+                    'li',
+                    {
+                        id: '1',
+                    },
+                    React.createElement("input", { type: "radio", name: "ship", id: 's1', value: "1", orientationv: "1", defaultChecked: true }),
+                    React.createElement("label",{htmlFor: "s1"},'1*1'),
+                ),
+            React.createElement(
+                    'li',
+                    {
+                        id: '2',
+                    },
+                    React.createElement("input", { type: "radio", name: "ship", id: 's2', value: "2", orientationv: "1"}),
+                    React.createElement("label",{htmlFor: "s2"},'2*1'),
+                ),
+            React.createElement(
+                    'li',
+                    {
+                        id: '3',
+                    },
+                    React.createElement("input", { type: "radio", name: "ship", id: 's3', value: "3", orientationv: "1"}),
+                    React.createElement("label",{htmlFor: "s3"},'L-shaped'),
+                ),
+            React.createElement(
+                    'li',
+                    {
+                        id: '4',
+                    },
+                    React.createElement("input", { type: "radio", name: "ship", id: 's4', value: "4", orientationv: "1"}),
+                    React.createElement("label",{htmlFor: "s4"},'4*1'),
+                ),
+            React.createElement(
+                    'li',
+                    {
+                        id: '5',
+                    },
+                    React.createElement("input", { type: "radio", name: "ship", id: 's5', value: "5", orientationv: "1"}),
+                    React.createElement("label",{htmlFor: "s5"},'T-shaped'),
+                )
+            ),
+        ));
+        rows.push(React.createElement(
+            'button',
+            {
+                key:'d',
+            }
         ));
         return React.createElement(
             'div',
@@ -170,7 +213,5 @@ class Board extends React.Component {
         );
     }
 }
-
 let b=React.createElement(Board,null);
-
 ReactDOM.render(b, document.getElementById('board_container'));
