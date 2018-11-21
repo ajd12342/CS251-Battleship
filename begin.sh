@@ -1,6 +1,6 @@
 sudo apt install python-dev
 sudo apt install python3-pip
-sudo apt install redis
+sudo apt install redis-server
 pip3 install -U django
 pip3 install -U django-crispy-forms
 pip3 install -U channels
