@@ -17,7 +17,9 @@
             box-shadow: none  !important;
         }
         ul[id='ul']{
-            list-style: none;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
         }
         ul[id='ul'] > li{
             display: inline-block;
@@ -34,9 +36,13 @@
 {% block title %}Place Ships{% endblock %}
 
 {% block content %}
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center"> <span class="btn btn-warning">Battleship</a> </nav>
     <div class="container">
         <br>
-        <div id="board_container" class="row"></div>
+        <div class="row">
+            <div id="board_container" class="col-7"></div>
+            <div class="col-5"><img src="https://img1.picmix.com/output/stamp/normal/3/5/5/7/107553_b06b9.gif"></div>
+        </div>
     </div>
     {% load static %}
     <script>
