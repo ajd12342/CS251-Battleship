@@ -203,8 +203,12 @@ class Board extends React.Component {
         rows.push(React.createElement(
             'button',
             {
-                key:'d',
+                key:'submit',
+                id: 'submit',
+                className: 'btn btn-success',
+                onClick
             }
+            Submit
         ));
         return React.createElement(
             'div',
