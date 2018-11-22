@@ -24,4 +24,6 @@ Our main motivation behind taking up this project was to to get a feel of workin
 \section{Implementation Details}
 \subsection{Software and Tools Used}
 We used the Django automatic server for automatic handling of database operations, redis server for using django channels to establish persistent connections. SQlite was used for handling the database.
+\subsection{Login and Logout Features}
+The inbuilt django auth app was used to implement login, logout and and signup feature. The default form was used for login and logout and custom form for signup. The custom signup form was built by extending the existing user creation from, with additional corresponding to the fields of the profile object. We used django-crispy-forms to bootsrap the forms.
 \end{document}
