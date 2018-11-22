@@ -1,0 +1,48 @@
+\documentclass[titlepage]{article}
+\usepackage[utf8]{inputenc}
+
+\title{\textbf{Battleship} \\ CS251 : Software Systems Lab}
+\author{Rahul Bhardwaj, Anuj Diwan, Soumya Chatterjee \\ 170050012, 170070005, 170070010}
+\date{November 2018}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\break
+
+\section{Introduction and Motivation}
+\subsection{Introduction}
+% About the project %
+\subsection{Motivation}
+Our main motivation behind taking up this project was to to get a feel of working on a client server architecture, learning database management and getting a feel of different communication protocols.
+
+\section{Features}
+
+\section{Implementation Details}
+\subsection{Software and Tools Used}
+We used the Django automatic server for automatic handling of database operations, redis server for using django channels to establish persistent connections. SQlite was used for handling the database.
+\subsection{Login and Logout Features}
+The inbuilt django auth app was used to implement login, logout and and signup feature. The default form was used for login and logout and custom form for signup. The custom signup form was built by extending the existing user creation from, with additional corresponding to the fields of the profile object. We used django-crispy-forms to bootsrap the forms.
+\subsection{Backend}
+ The database handling was done using Sqlite. We created a "profile" class to store user objects which contains information like username, bio, location, date of birth and a boolean which store whether the player is currently available or not. We have defined 2 views in the pairing app- profile view(is exactly what is sounds like:) and the "listAvailable" to see the list of players currently available. Upon logging the user will be directed the profile view, where he can click on the link which will take him to the listAvailable view. The list of players which are currently active will get updated automatically if a user logs out or begins playing.
+\subsection{Websocket Connection}
+The list of players which are currently active(i.e ready to play) needed to be updated automatically. To implement this, we established a web-socket connection by routing it to the Redis server and a persistent connection was formed along with associated consumer object. This was implemented using django channels. We wrote a consumer called ChatConsumer to handle the events of players sending, accepting and rejecting requests. When a user logins in, the information that the player now is available is sent to the entire group of channels and its "isAvaliable" attribute is set to true. The same thing happens when a user logs out. For other types of messages, the type of message that has been sent is stored in the purpose attribute of the message.
+\subsubsection{Recieving Messages}
+If the message contains the "loggedIn attribute" then it corresponds to a user logging in/out, then there will be no purpose attribute and the only action which will be performed is the list of users getting updated. If the message contains the logged\_in attribute, we show that that user also in the list, else we hide it.  On the other hand if the message does not contain the "loggedIn" attribute, then we check the purpose attribute of the message. If the purpose attribute is "Send Request", then we show the model displaying that a play request has been sent. If the purpose attribute is "Accept\_Request", then we display the message that his request was accepted by the other player and then direct them to the play pages. If the purpose attribute was "Reject\_Request", then we display a message saying that his request was rejected.  His decision will also be conveyed to the sender of the message. We handled all this using the javascript function socket.onmessage in list.html
+
+\subsubsection{Sending Messages}
+In the list.html we defined a function to handle the events of a user clicking on another user and thereby sending a request. The message was again sent as a JSON containing "from","to","purpose" and "type" attributes. The javascript function sends this message over WebSocket to the ChatConsumer. The Chat Consumer upon recieving the message forwards it to the entire group of channels. The ChatConsumer's of the receiving channel then sends the message over websocket to the javascript, which is then handled in the way described in the above paragraph.
+
+\subsection{Frontend}
+The front-end was implemented using the Javascript library React.
+\subsubsection{Placing the Ships}
+In the placing.html file we have created a class called board which will store the current state of the board and defined a function to handle the onclick event. It contains a variable to store which all points on the borad and another variable which stores the points which a particular ship covers. The render function is designed to display the board and give the user options to select ships and place them on the board. We have also created functions which handle events related to placing of ships. For all the ships, we have decided on keeping a point as pivot and then allowing rotations about that point. There are 4 possible orientations for every ship(though some of them may be same for a few pieces). The player can choose a ship, its orientation and the point where to keep its pivot, after which the function "HandleClick" will be called. Based on the ship and its orientation we push all the points covered by the ship into an array and then check if any of them goes outside the board and if all the ships have been placed. If both these conditions are met, we send a message through the websocket to django in order to update the database. We also display the number of ships of each type which have been successfully placed.
+
+\subsubsection{The Actual Game}
+To enable communication between the players, we have again made use of websocket connections. As soon as the players get redirected to the play page, the socket connection gets established. Consumers.py contains a "SubmitConsumer" class, whose member functions handle various events related to the game. If a player disconnects in while the game is going on, submit consumer sends a message to the group that the player has disconnected. The message has a purpose attribute which is set to "left\_game" for a message of this kind. The file placing.html contains a function to handle the message recieved from the websocket. The function checks the purpose attribute of the message. If it is set to "left\_game", then it displays a message saying that the opponent has left the game.
+\section{Contributions}
+
+\end{document}
