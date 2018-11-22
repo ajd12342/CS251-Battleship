@@ -26,4 +26,6 @@ Our main motivation behind taking up this project was to to get a feel of workin
 We used the Django automatic server for automatic handling of database operations, redis server for using django channels to establish persistent connections. SQlite was used for handling the database.
 \subsection{Login and Logout Features}
 The inbuilt django auth app was used to implement login, logout and and signup feature. The default form was used for login and logout and custom form for signup. The custom signup form was built by extending the existing user creation from, with additional corresponding to the fields of the profile object. We used django-crispy-forms to bootsrap the forms.
+\subsection{Backend}
+ The database handling was done using Sqlite. We created a "profile" class to store user objects which contains information like username, bio, location, date of birth and a boolean which store whether the player is currently available or not. We have defined 2 views in the pairing app- profile view(is exactly what is sounds like:) and the "listAvailable" to see the list of players currently available. Upon logging the user will be directed the profile view, where he can click on the link which will take him to the listAvailable view. The list of players which are currently active will get updated automatically if a user logs out or begins playing.
 \end{document}
