@@ -145,9 +145,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        #print(event)
+        print(event)
         if(event['purpose']=='Set Game ID' and self.user.username==event['from']):
             self.game_id=event['game_id']
+            print(json.dumps(gameState(self.game_id,self.user.username)))
             await self.send(text_data=json.dumps(gameState(self.game_id,self.user.username)))
         elif(self.game_id==event['game_id']):
             if(event['purpose']=='Left Game'):

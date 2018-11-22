@@ -90,7 +90,6 @@
         socket.onmessage = function message(event) {
             var data = JSON.parse(event.data);
             if('game_id' in data && data['game_id']==={{ room_name }}) {
-                alert("Rec message");
                 if (data['purpose'] === 'Complete') {
                     window.location.href = '/play/game/' + '{{ room_name }}';
                 }
