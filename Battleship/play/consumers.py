@@ -210,6 +210,60 @@ def gameState(game_id,from_username,purpose):
             }
 
 
+# The chat part starts here
+
+
+class GameChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.user=self.scope["user"]
+        self.room_name = "gamechat"
+        self.room_group_name = 'chat_gamechat'
+        self.game_id = None
+        # Join room group
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        # Leave room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type':'chat_message',
+                'purpose': 'Left Chat',
+                'game_id': self.game_id,
+                'message': '',
+                'from': self.user.username
+            })
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    # Receive message from WebSocket
+    async def receive(self, text_data=None, bytes_data=None):
+        text_data_json = json.loads(text_data)
+
+        # Send message to room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            text_data_json
+        )
+
+    # Receive message from room group
+    async def chat_message(self, event):
+        print(event)
+        if (event['purpose'] == 'Set Game ID' and self.user.username == event['from']):
+            self.game_id = event['game_id']
+        elif self.game_id==event['game_id']:
+            if event['purpose']=="Game_Chat":
+                await self.send(text_data=json.dumps(event))
+
+
+
+# The chat part ends here
 
 
 

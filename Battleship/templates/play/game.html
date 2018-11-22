@@ -472,6 +472,131 @@
                 );
             }
         }
+
+
+        {#The chat part starts here#}
+        {##}
+        class GameChat extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state =
+                    {
+                        sendee : [],
+                        message : [],
+                    };
+            }
+            componentDidMount() {
+                this.socket = new WebSocket('ws://' + window.location.host + '/chat/');
+                if (this.socket.readyState === WebSocket.OPEN) {
+                    this.socket.onopen();
+                }
+                this.socket.onopen = () => {
+                    console.log('WebSockets connection created.');
+                    this.socket.send(JSON.stringify({
+                        'type': 'chat_message',
+                        'purpose': 'Set Game ID',
+                        'game_id': {{ room_name }},
+                        'message': '',
+                        'from': '{{ user.username }}'
+                    }));
+                };
+                this.socket.onmessage = (event) => {
+                    var data = JSON.parse(event.data);
+                    if ('game_id' in data && data['game_id'] ==={{ room_name }}) {
+                        if (data['purpose'] === 'Game_Chat') {
+                            //alert("HMM");
+                            let sendee=this.state.sendee.slice();
+                            console.log(sendee);
+                            let message=this.state.message.slice();
+                            sendee.push(data['from']);
+                            message.push(data['message']);
+                            this.setState({
+                                sendee: sendee,
+                                message: message,
+
+                            });
+                            console.log(sendee);
+                            console.log(message);
+                        }
+                    }
+                }
+            }
+
+            sendMessage(){
+                let message=document.getElementById('message').value;
+                this.socket.send(JSON.stringify({
+                    'type':'chat_message',
+                    'purpose': 'Game_Chat',
+                    'game_id':{{ room_name }},
+                    'message': message,
+                    'from': '{{ user.username }}'
+                }))
+            }
+            render(){
+                let rows=[];
+                for(let i=0;i<this.state.message.length;i++) {
+                    rows.push(
+                        React.createElement(
+                            'div',
+                            {
+                                className: 'row',
+                                key: i,
+                            },
+                            React.createElement(
+                                'div',
+                                {
+                                    className: 'col-3',
+                                },
+                                this.state.sendee[i]
+                            ),
+                            React.createElement(
+                                'div',
+                                {
+                                    className: 'col-9',
+                                },
+                                this.state.message[i]
+                            )
+                        )
+                    );
+                }
+                rows.push(
+                    React.createElement(
+                    'div',
+                    {
+                        className: 'panel-footer',
+                        key: 'row'
+                    },
+                    React.createElement(
+                        'input',
+                        {
+                            type: 'text',
+                            id: 'message',
+                        }
+                    ),
+                    React.createElement(
+                        "input",
+                        {
+                            type: "button",
+                            onClick: () => this.sendMessage(),
+                        }
+                    ),
+                    )
+                );
+                return React.createElement(
+                    'div',
+                    null,
+                    rows);
+            }
+        }
+
+        {#The chat part ends here#}
+        {##}
+
+        let c=React.createElement(
+            GameChat,
+            null,
+        );
+        ReactDOM.render(c,document.getElementById('chat_container'));
         let p=React.createElement(
             Parent,
             null,
