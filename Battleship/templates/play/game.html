@@ -35,7 +35,6 @@
     <script>
         var counts=Array(6).fill(0);
         var upperCount=Array(6).fill(0);
-        var activePlayerisMe=false;
         upperCount[1]=3;
         upperCount[2]=2;
         upperCount[3]=1;
@@ -47,6 +46,7 @@
                 {
                     onClick: props.onClick,
                     className: 'square btn btn_cust '+props.value,
+                    disabled: props.disabled,
                 },
                 null,
             );
@@ -55,6 +55,7 @@
             constructor(props) {
                 super(props);
                 this.myBoard= props.myBoard;
+                this.socket=props.socket;
                 var x = new Array(10);
                 var y= new Array(6);
                 let z=new Array(6);
@@ -72,11 +73,33 @@
                     jOfSquaresOfType: z,
                     noOfSunkShips: 0,
                     squaresLeft: a,
-                    activeBoard: false,
+                    activePlayerIsMe: false,
                 };
             }
-            handleClick(j, i) {
+            handleClick(i, j) {
+                if(!this.myBoard && this.state.activePlayerIsMe) {
+                    let squares = jQuery.extend(true, {}, this.state.squares);
+                    let iOfSquaresOfType = jQuery.extend(true, {}, this.state.iOfSquaresOfType);
+                    let jOfSquaresOfType = jQuery.extend(true, {}, this.state.jOfSquaresOfType);
+                    let noOfSunkShips = jQuery.extend(true, {}, this.state.noOfSunkShips);
+                    let squaresLeft = jQuery.extend(true, {}, this.state.squaresLeft);
+                    let activePlayerIsMe = jQuery.extend(true, {}, this.state.activePlayerIsMe);
+                    if (squares[i][j] === 0) {
+                        squares[i][j] = 2;
+                        activePlayerIsMe = !activePlayerIsMe;
+                    } else if (squares[i][j] === 1) {
+                        squares[i][j] = 3;
+                    }
 
+                    this.setState({
+                        squares: squares,
+                        iOfSquaresOfType: iOfSquaresOfType,
+                        jOfSquaresOfType: jOfSquaresOfType,
+                        noOfSunkShips: noOfSunkShips,
+                        squaresLeft: squaresLeft,
+                        activePlayerIsMe: activePlayerIsMe,
+                    })
+                }
             }
             renderSquare(i, j) {
                 let k = 10 * i + j;
@@ -92,31 +115,33 @@
                         }
                     }
                 }
+                let isDisabled=this.myBoard;
                 let colour = 'btn-default';
-                if (this.state.squares[i][j] === 1) {
-                    if(type===0){
-                        colour='btn-secondary';
-                    }
-                    else if(type===1){
-                        colour = 'btn-success';
-                    }
-                    else if(type===2){
-                        colour = 'btn-primary';
-                    }
-                    else if(type===3){
-                        colour = 'btn-warning';
-                    }
-                    else if(type===4){
+                if(this.myBoard) {
+                    if (this.state.squares[i][j] === 1) {
+                        colour = 'btn-secondary';
+                    } else if (this.state.squares[i][j] === 2) {
                         colour = 'btn-info';
-                    }
-                    else if(type===5){
+                    } else if (this.state.squares[i][j] === 3) {
                         colour = 'btn-danger';
+                    }
+                }else{
+                    if(!this.state.activePlayerIsMe){
+                        isDisabled=true;
+                    }
+                    if (this.state.squares[i][j]===2){
+                        colour = 'btn-info';
+                        isDisabled=true;
+                    }else if(this.state.squares[i][j]===3){
+                        colour = 'btn-danger';
+                        isDisabled=true;
                     }
                 }
                 return React.createElement(Square, {
                     value: colour,
                     onClick: () => this.handleClick(i, j),
                     key: k,
+                    disabled: isDisabled,
                 });
             }
             render() {
@@ -148,33 +173,39 @@
         class Parent extends React.Component {
             constructor(props) {
                 super(props);
+                this.state= {
+                    activePlayerIsMe: false,
+                }
             }
             updateState(boardref,data){
+                let activePlayerIsMe=
+                    (
+                        (data['p1']==='{{ user.username }}' && data['activePlayerIs1']) ||
+                        (data['p2']==='{{ user.username }}' && !data['activePlayerIs1'])
+                    );
                 if((boardref.myBoard && data['p1']==='{{ user.username }}') ||
                     (!boardref.myBoard && data['p2']==='{{ user.username }}')){
-                    alert(data['purpose']);
                     boardref.setState({
                         squares: data['p1squares'],
                         iOfSquaresOfType: data['p1iOfSquaresOfType'],
                         jOfSquaresOfType: data['p1jOfSquaresOfType'],
                         noOfSunkShips: data['p1noOfSunkShips'],
                         squaresLeft: data['p1squaresLeft'],
-                        activeBoard: data['p1activePlayerIs1'] ? true : false ,
+                        activePlayerIsMe: activePlayerIsMe,
                     });
                 }else if((boardref.myBoard && data['p2']==='{{ user.username }}') ||
                     (!boardref.myBoard && data['p1']==='{{ user.username }}')){
-                    alert("S2");
                     boardref.setState({
                         squares: data['p2squares'],
                         iOfSquaresOfType: data['p2iOfSquaresOfType'],
                         jOfSquaresOfType: data['p2jOfSquaresOfType'],
                         noOfSunkShips: data['p2noOfSunkShips'],
                         squaresLeft: data['p2squaresLeft'],
-                        activeBoard: data['p1activePlayerIs1'] ? false : true ,
+                        activePlayerIsMe:activePlayerIsMe,
                     });
                 }
                 this.setState({
-
+                    activePlayerIsMe: activePlayerIsMe
                 });
             }
             componentDidMount() {
@@ -222,7 +253,7 @@
                         ref: (board1) => {
                             this.board1 = board1
                         },
-
+                        socket: this.socket,
                     }
                 ));
                 rows.push(React.createElement(
@@ -233,7 +264,7 @@
                         ref: (board2) => {
                             this.board2 = board2
                         },
-
+                        socket: this.socket,
                     }
                 ));
                 return React.createElement(
