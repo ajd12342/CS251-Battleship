@@ -11,10 +11,15 @@ Battleship Game for CS-251 Course Project.
  - Enjoy the game :smiley:
  
  ## Dependencies
- - 
- -
- - 
- - 
+ - __Linux__
+   - Python Dev
+   - Redis
+ - __Python__
+   - Django == 2.1.3
+   - Django Crispy Forms == 1.7.2
+   - Channels == 2.1.5
+   - Django Picklefield == 1.1.0
+   - Channels-Redis == 2.3.1
  
  
 ## An Example Placing of Ships
