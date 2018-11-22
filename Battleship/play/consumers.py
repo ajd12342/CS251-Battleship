@@ -73,8 +73,7 @@ class SubmitConsumer(AsyncWebsocketConsumer):
                             g.player1Pieces.squares=event['squares']
                             g.player1Pieces.iOfSquaresOfType=event['iOfSquaresOfType']
                             g.player1Pieces.jOfSquaresOfType=event['jOfSquaresOfType']
-                            g.player1Pieces.squaresLeft=[0,2,3,1,1,1]
-                            g.player1Pieces.whichShipsSunk=[False,False,False,False,False,False]
+                            g.player1Pieces.squaresLeft=[[0],[1,1,1],[2,2],[3],[4],[5]]
                             g.player1Pieces.save()
                             g.save()
                         if (g.player2.username == event['from']):
@@ -83,8 +82,7 @@ class SubmitConsumer(AsyncWebsocketConsumer):
                             g.player2Pieces.squares = event['squares']
                             g.player2Pieces.iOfSquaresOfType = event['iOfSquaresOfType']
                             g.player2Pieces.jOfSquaresOfType = event['jOfSquaresOfType']
-                            g.player2Pieces.squaresLeft = [0, 2, 3, 1, 1, 1]
-                            g.player2Pieces.whichShipsSunk = [False, False, False, False, False, False]
+                            g.player2Pieces.squaresLeft = [[0], [1,1,1],[2,2], [3], [4], [5]]
                             g.player2Pieces.save()
                             g.save()
                     if(g.player1Placed and g.player2Placed):
@@ -148,8 +146,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         print(event)
         if(event['purpose']=='Set Game ID' and self.user.username==event['from']):
             self.game_id=event['game_id']
-            print(json.dumps(gameState(self.game_id,self.user.username)))
-            await self.send(text_data=json.dumps(gameState(self.game_id,self.user.username)))
+            print(json.dumps(gameState(self.game_id,self.user.username,'Initialize Game')))
+            await self.send(text_data=json.dumps(gameState(self.game_id,self.user.username,'Initialize Game')))
         elif(self.game_id==event['game_id']):
             if(event['purpose']=='Left Game'):
             # g=Game.objects.get(pk=event['game_id'])
@@ -161,14 +159,40 @@ class GameConsumer(AsyncWebsocketConsumer):
                 print(event)
                 print("Left")
                 await self.send(text_data=json.dumps(event))
+            if(event['purpose']=='Update State for Django'):
+                g = Game.objects.get(pk=event['game_id'])
+                if(self.user.username==event['from']):
+                    if(event['iAmPlayer1']):
+                        g.player2Pieces.noOfSunkShips = event['noOfSunkShips']
+                        g.player2Pieces.squares = event['squares']
+                        g.player2Pieces.iOfSquaresOfType = event['iOfSquaresOfType']
+                        g.player2Pieces.jOfSquaresOfType = event['jOfSquaresOfType']
+                        g.player2Pieces.squaresLeft = event['squaresLeft']
+                        g.activePlayerIs1=event['activePlayerIs1']
+                        g.player2Pieces.save()
+                        g.save()
+                    else:
+                        g.player1Pieces.noOfSunkShips = event['noOfSunkShips']
+                        g.player1Pieces.squares = event['squares']
+                        g.player1Pieces.iOfSquaresOfType = event['iOfSquaresOfType']
+                        g.player1Pieces.jOfSquaresOfType = event['jOfSquaresOfType']
+                        g.player1Pieces.squaresLeft = event['squaresLeft']
+                        g.activePlayerIs1 = event['activePlayerIs1']
+                        g.player1Pieces.save()
+                        g.save()
+                    await self.channel_layer.group_send(
+                        self.room_group_name,
+                        gameState(self.game_id,self.user.username,'Update State')
+                    )
+            if(event['purpose']=='Update State'):
+                await self.send(json.dumps(event))
 
-
-def gameState(game_id,from_username):
+def gameState(game_id,from_username,purpose):
     g=Game.objects.get(pk=game_id)
     return {
                 'type': 'chat_message',
                 'from': from_username,
-                'purpose': 'Initialize Game',
+                'purpose': purpose,
                 'p1': g.player1.username,
                 'p2': g.player2.username,
                 'p1squares': g.player1Pieces.squares,

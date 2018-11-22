@@ -16,24 +16,31 @@
         .btn_cust:focus {
             box-shadow: none  !important;
         }
+        ul[id='ul']{
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        ul[id='ul'] > li{
+            display: inline-block;
+        }
     </style>
 {% endblock %}
 {% block title %}Place Ships{% endblock %}
 
 {% block content %}
     <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center"> <span class="btn btn-warning">Battleship</span> </nav>
-    <div class="container">
+    <div class="container container-fluid">
         <br>
         <div class="row">
-            <div id="parent_container"></div>
+            <div class="container container-fluid" id="parent_container"></div>
         </div>
         <div class="row">
-            <div id="chat_container"></div>
+            <div class="container container-fluid" id="chat_container"></div>
         </div>
     </div>
     {% load static %}
     <script>
-        var counts=Array(6).fill(0);
         var upperCount=Array(6).fill(0);
         upperCount[1]=3;
         upperCount[2]=2;
@@ -56,6 +63,7 @@
                 super(props);
                 this.myBoard= props.myBoard;
                 this.socket=props.socket;
+                this.iAmPlayer1=props.iAmPlayer1;
                 var x = new Array(10);
                 var y= new Array(6);
                 let z=new Array(6);
@@ -81,16 +89,44 @@
                     let squares = jQuery.extend(true, {}, this.state.squares);
                     let iOfSquaresOfType = jQuery.extend(true, {}, this.state.iOfSquaresOfType);
                     let jOfSquaresOfType = jQuery.extend(true, {}, this.state.jOfSquaresOfType);
-                    let noOfSunkShips = jQuery.extend(true, {}, this.state.noOfSunkShips);
+                    let noOfSunkShips = this.state.noOfSunkShips;
                     let squaresLeft = jQuery.extend(true, {}, this.state.squaresLeft);
-                    let activePlayerIsMe = jQuery.extend(true, {}, this.state.activePlayerIsMe);
+                    let activePlayerIsMe = this.state.activePlayerIsMe;
                     if (squares[i][j] === 0) {
                         squares[i][j] = 2;
                         activePlayerIsMe = !activePlayerIsMe;
                     } else if (squares[i][j] === 1) {
                         squares[i][j] = 3;
+                        let pos=-1;
+                        let type=0;
+                        for(let k1=1;k1<=5;k1++){
+                            for(let k2=0;k2<this.state.iOfSquaresOfType[k1].length;k2++) {
+                                // console.log(this.state.iOfSquaresOfType[k1]===i);
+                                if (this.state.iOfSquaresOfType[k1][k2] === i && this.state.jOfSquaresOfType[k1][k2] === j) {
+                                    console.log("E");
+                                    type=k1;
+                                    pos=k2;
+                                }
+                            }
+                        }
+                        if(type===2){
+                            pos=pos - pos%2;
+                        }
+                        if(squaresLeft[type][pos]>0){
+                            squaresLeft[type][pos]--;
+                            if(squaresLeft[type][pos]===0){
+                                noOfSunkShips++;
+                            }
+                        }
                     }
-
+                    console.log({
+                        squares: squares,
+                        iOfSquaresOfType: iOfSquaresOfType,
+                        jOfSquaresOfType: jOfSquaresOfType,
+                        noOfSunkShips: noOfSunkShips,
+                        squaresLeft: squaresLeft,
+                        activePlayerIsMe: activePlayerIsMe,
+                    });
                     this.setState({
                         squares: squares,
                         iOfSquaresOfType: iOfSquaresOfType,
@@ -98,7 +134,26 @@
                         noOfSunkShips: noOfSunkShips,
                         squaresLeft: squaresLeft,
                         activePlayerIsMe: activePlayerIsMe,
-                    })
+                    });
+                    let activePlayerIs1=false;
+                    if((this.iAmPlayer1&&activePlayerIsMe) || (!this.iAmPlayer1 && !activePlayerIsMe)){
+                        activePlayerIs1=true;
+                    }
+                    console.log()
+                    this.socket.send(JSON.stringify({
+                        'type': 'chat_message',
+                        'from': '{{ user.username }}',
+                        'purpose': 'Update State for Django',
+                        'squares': squares,
+                        'iOfSquaresOfType': iOfSquaresOfType,
+                        'jOfSquaresOfType': jOfSquaresOfType,
+                        'noOfSunkShips': noOfSunkShips,
+                        'squaresLeft': squaresLeft,
+                        'activePlayerIs1': activePlayerIs1,
+                        'iAmPlayer1': this.iAmPlayer1,
+                        'game_id': {{ room_name }},
+                    }));
+                    alert("Sent");
                 }
             }
             renderSquare(i, j) {
@@ -115,6 +170,7 @@
                         }
                     }
                 }
+
                 let isDisabled=this.myBoard;
                 let colour = 'btn-default';
                 if(this.myBoard) {
@@ -161,10 +217,142 @@
                         },
                     ));
                 }
+                let counts=new Array(6);
+                counts[1]=this.state.squaresLeft[1][0]+
+                    this.state.squaresLeft[1][1]+
+                    this.state.squaresLeft[1][2];
+                counts[2]=((this.state.squaresLeft[2][0]>0)?1:0)+((this.state.squaresLeft[2][1]>0?1:0));
+                counts[3]=((this.state.squaresLeft[3][0]>0)?1:0);
+                counts[4]=((this.state.squaresLeft[4][0]>0)?1:0);
+                counts[5]=((this.state.squaresLeft[5][0]>0)?1:0);
+                if(!this.myBoard){
+                    rows.push(
+                        React.createElement(
+                            'br',
+                            {
+                                key:'br',
+                            }
+                        )
+                    );
+                    rows.push(
+                        React.createElement(
+                            'ul',
+                            {
+                                id: 'ul',
+                                key: 'ul',
+                            },
+                            React.createElement(
+                                'li',
+                                {
+                                    id: '1',
+                                },
+                                React.createElement(
+                                    "div",
+                                    {
+                                        className:'labelDiv',
+                                    },
+                                    React.createElement("img", { src: "{% static play %}/images/s1.png", id: "ship1", }),
+                                    React.createElement(
+                                        "h3",
+                                        {
+                                            key: 'choose',
+                                            align: 'center',
+                                        },
+                                        counts[1]+"/"+upperCount[1]
+                                    ),
+                                ),
+                            ),
+                            React.createElement(
+                                'li',
+                                {
+                                    id: '2',
+                                },
+                                React.createElement(
+                                    "div", {className:"labelDiv"},
+                                    React.createElement("img", { src: "{% static play %}/images/s2.png", id: "ship2", }
+                                    ),
+                                    React.createElement(
+                                        "h3",
+                                        {
+                                            key: 'choose',
+                                            align: 'center',
+                                        },
+                                        counts[2]+"/"+upperCount[2]
+                                    ),
+                                ),
+
+                            ),
+                            React.createElement(
+                                'li',
+                                {
+                                    id: '3',
+                                },
+                                React.createElement(
+                                    "div",{className:"labelDiv"},
+
+                                    React.createElement("img", { src: "{% static play %}/images/s3.png", id: "ship3", }
+                                    ),
+                                    React.createElement(
+                                        "h3",
+                                        {
+                                            key: 'choose',
+                                            align: 'center',
+                                        },
+                                        counts[3]+"/"+upperCount[3]
+                                    ),
+                                ),
+                            ),
+                            React.createElement(
+                                'li',
+                                {
+                                    id: '4',
+                                },
+                                React.createElement(
+                                    "div",{className:"labelDiv"},
+
+                                    React.createElement("img", { src: "{% static play %}/images/s4.png", id: "ship4", }
+                                    ),
+                                    React.createElement(
+                                        "h3",
+                                        {
+                                            key: 'choose',
+                                            align: 'center',
+                                        },
+                                        counts[4]+"/"+upperCount[4]
+                                    ),
+                                ),
+                            ),
+                            React.createElement(
+                                'li',
+                                {
+                                    id: '5',
+                                },
+                                React.createElement(
+                                    "div",{className:"labelDiv"},
+
+                                    React.createElement("img", { src: "{% static play %}/images/s5.png", id: "ship5", }
+                                    ),
+                                    React.createElement(
+                                        "h3",
+                                        {
+                                            key: 'choose',
+                                            align: 'center',
+                                        },
+                                        counts[5]+"/"+upperCount[5]
+                                    ),
+                                ),
+                            ),
+                        ),
+                    )
+                }
+                let className='col-6';
+                if(this.myBoard){
+                    className='col-6';
+                }
                 return React.createElement(
                     'div',
                     {
-                        className:'col-6',
+                        className:className,
                     },
                     rows
                 );
@@ -173,6 +361,7 @@
         class Parent extends React.Component {
             constructor(props) {
                 super(props);
+                this.iAmPlayer1=false;
                 this.state= {
                     activePlayerIsMe: false,
                 }
@@ -210,6 +399,8 @@
             }
             componentDidMount() {
                 this.socket = new WebSocket('ws://' + window.location.host + '/game/');
+                this.board2.socket=this.socket;
+                this.board1.socket=this.socket;
                 if (this.socket.readyState === WebSocket.OPEN) {
                     this.socket.onopen();
                 }
@@ -225,17 +416,20 @@
                 this.socket.onmessage = (event) => {
                     var data = JSON.parse(event.data);
                     if ('game_id' in data && data['game_id'] ==={{ room_name }}) {
-                        if (data['purpose'] === 'Left Game') {
-                            if (data['from'] === '{{ user.username }}') {
-                                alert("Your socket got disconnected. You're being redirected to your profile.");
-                            } else {
-                                alert("Your opponent disconnected. Redirecting to profile page.");
-                                //Fix it to 'you won' when we fix code
-                                //Add scoring code here
-                            }
-                            window.location.href = '/pairing/profile';
-                        }
-                        if (data['purpose'] === 'Initialize Game') {
+                        //if (data['purpose'] === 'Left Game') {
+                        //  if (data['from'] === '{{ user.username }}') {
+                        //    alert("Your socket got disconnected. You're being redirected to your profile.");
+                        //} else {
+                        //  alert("Your opponent disconnected. Redirecting to profile page.");
+                        //Fix it to 'you won' when we fix code
+                        //Add scoring code here
+                        //}
+                        //window.location.href = '/pairing/profile';
+                        //}
+                        if (data['purpose'] === 'Initialize Game' || data['purpose']==='Update State') {
+                            this.iAmPlayer1=(data['p1']==='{{ user.username }}');
+                            this.board1.iAmPlayer1=this.iAmPlayer1;
+                            this.board2.iAmPlayer1=this.iAmPlayer1;
                             this.updateState(this.board1,data);
                             this.updateState(this.board2,data);
                         }
@@ -253,7 +447,8 @@
                         ref: (board1) => {
                             this.board1 = board1
                         },
-                        socket: this.socket,
+                        socket: null,
+                        iAmPlayer1: false,
                     }
                 ));
                 rows.push(React.createElement(
@@ -264,7 +459,8 @@
                         ref: (board2) => {
                             this.board2 = board2
                         },
-                        socket: this.socket,
+                        socket: null,
+                        iAmPlayer1: false,
                     }
                 ));
                 return React.createElement(
