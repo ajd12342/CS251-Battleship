@@ -25,8 +25,7 @@
     <div class="container">
         <br>
         <div class="row">
-            <div id="board1_container" class="col-6"></div>
-            <div id="board2_container" class="col-6"></div>
+            <div id="parent_container"></div>
         </div>
         <div class="row">
             <div id="chat_container"></div>
@@ -42,38 +41,59 @@
         upperCount[3]=1;
         upperCount[4]=1;
         upperCount[5]=1;
-        let socket = new WebSocket('ws://' + window.location.host + '/game/');
-        let b1;
-        let b2;
-        socket.onopen = function open() {console.log('WebSockets connection created.')
-        socket.send(JSON.stringify({
-                'type': 'chat_message',
-                'purpose': 'Set Game ID',
-                'game_id': {{ room_name }},
-                'from':'{{ user.username }}'
-            }));};
-        if (socket.readyState === WebSocket.OPEN) {
-            socket.onopen();
-        }
-        socket.onmessage = function message(event) {
-            var data = JSON.parse(event.data);
-            if('game_id' in data && data['game_id']==={{ room_name }}) {
-                if (data['purpose'] === 'Left Game') {
-                    if (data['from'] ==='{{ user.username }}') {
-                        alert("Your socket got disconnected. You're being redirected to your profile.");
-                    } else {
-                        alert("Your opponent disconnected. Redirecting to profile page.");
-                        //Fix it to 'you won' when we fix code
-                        //Add scoring code here
-                    }
-                    window.location.href = '/pairing/profile';
-                }
-                if(data['purpose']==='Initialize Game'){
-                    b1.updateState(data);
-                    b2.updateState(data);
-                }
+        class Parent extends React.Component{
+            constructor(props){
+                super(props);
             }
-        };
+            componentDidMount() {
+                this.socket = new WebSocket('ws://' + window.location.host + '/game/');
+                if (this.socket.readyState === WebSocket.OPEN) {
+                    this.socket.onopen();
+                }
+                this.this.socket.onopen=() =>{
+                    console.log('WebSockets connection created.');
+                    this.socket.send(JSON.stringify({
+                        'type': 'chat_message',
+                        'purpose': 'Set Game ID',
+                        'game_id': {{ room_name }},
+                        'from':'{{ user.username }}'
+                    }));
+                };
+                this.socket.onmessage = (event) =>{
+                    var data = JSON.parse(event.data);
+                    if('game_id' in data && data['game_id']==={{ room_name }}) {
+                        if (data['purpose'] === 'Left Game') {
+                            if (data['from'] ==='{{ user.username }}') {
+                                alert("Your socket got disconnected. You're being redirected to your profile.");
+                            } else {
+                                alert("Your opponent disconnected. Redirecting to profile page.");
+                                //Fix it to 'you won' when we fix code
+                                //Add scoring code here
+                            }
+                            window.location.href = '/pairing/profile';
+                        }
+                        if(data['purpose']==='Initialize Game'){
+                            b1.updateState(data);
+                            b2.updateState(data);
+                        }
+                    }
+                };
+            }
+            componentWillUnmount() {
+                this.socket.close()
+            }
+            render(){
+                rows=[];
+                rows.push(React.createElement(
+                   'Board',
+                    {
+                        key: 'b1',
+                        myBoard: true,
+                        ref: (fieldEditor1) => {this.fieldEditor1 = fieldEditor1}
+                    }
+                ));
+            }
+        }
         function Square(props) {
             return React.createElement(
                 'button',
@@ -269,7 +289,9 @@
                 }
                 return React.createElement(
                     'div',
-                    null,
+                    {
+                        className:'col-6',
+                    },
                     rows
                 );
             }
@@ -278,7 +300,7 @@
             myBoard: true,
         });
         b2=React.createElement(Board,{
-           myBoard: false,
+            myBoard: false,
         });
         ReactDOM.render(b1, document.getElementById('board1_container'));
         ReactDOM.render(b2,document.getElementById('board2_container'));
