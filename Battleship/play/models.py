@@ -15,8 +15,8 @@ class PlayerPieces(models.Model):
 class Game(models.Model):
     player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player1')
     player2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player2')
-    player1Pieces = models.ForeignKey(PlayerPieces, on_delete=models.CASCADE, related_name='player1Pieces')
-    player2Pieces = models.ForeignKey(PlayerPieces,on_delete=models.CASCADE,related_name='player2Pieces')
+    player1Pieces = models.OneToOneField(PlayerPieces, on_delete=models.CASCADE, related_name='player1Pieces')
+    player2Pieces = models.OneToOneField(PlayerPieces,on_delete=models.CASCADE,related_name='player2Pieces')
     player1Placed=models.BooleanField()
     player2Placed=models.BooleanField()
     activePlayerIs1=models.BooleanField()

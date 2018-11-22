@@ -10,7 +10,7 @@ class SubmitConsumer(AsyncWebsocketConsumer):
         self.user=self.scope["user"]
         self.room_name = "placing"
         self.room_group_name = 'chat_placing'
-
+        self.game_id=None
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -20,6 +20,15 @@ class SubmitConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         # Leave room group
+        print(self.user.username,"Left")
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type':'chat_message',
+                'purpose': 'Left Game',
+                'game_id': self.game_id,
+                'from': self.user.username
+            })
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -37,7 +46,19 @@ class SubmitConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        print(event)
+        #print(event)
+        if(event['purpose']=='Set Game ID' and self.user.username==event['from']):
+            self.game_id=event['game_id']
+        if(event['purpose']=='Left Game'):
+            # g=Game.objects.get(pk=event['game_id'])
+            # p1=g.player1Pieces
+            # p2=g.player2Pieces
+            # g.delete()
+            # p1.delete()
+            # p2.delete()
+            print(event)
+            print("Left")
+            await self.send(text_data=json.dumps(event))
         if(event['purpose']=='Placing done'):
             g=Game.objects.get(pk=event['game_id'])
             if(self.user.username==event['from']):

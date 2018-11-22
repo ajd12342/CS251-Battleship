@@ -36,7 +36,7 @@
 {% block title %}Place Ships{% endblock %}
 
 {% block content %}
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center"> <span class="btn btn-warning">Battleship</a> </nav>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center"> <span class="btn btn-warning">Battleship</span> </nav>
     <div class="container">
         <br>
         <div class="row">
@@ -55,15 +55,29 @@
         upperCount[4]=1;
         upperCount[5]=1;
         let socket = new WebSocket('ws://' + window.location.host + '/placing/');
-        socket.onopen = function open() {console.log('WebSockets connection created.')};
+        socket.onopen = function open() {console.log('WebSockets connection created.')
+        socket.send(JSON.stringify({
+                'type': 'chat_message',
+                'purpose': 'Set Game ID',
+                'game_id': '{{ room_name }}',
+                'from':'{{ user.username }}'
+            }));};
         if (socket.readyState === WebSocket.OPEN) {
             socket.onopen();
         }
         socket.onmessage = function message(event) {
             var data = JSON.parse(event.data);
-            if('game_id' in data && data['game_id']==={{ room_name }}){
-                if(data['status']==='Complete'){
-                    window.location.href = '/play/game/'+'{{ room_name }}';
+            if('game_id' in data && data['game_id']==='{{ room_name }}') {
+                if (data['status'] === 'Complete') {
+                    window.location.href = '/play/game/' + '{{ room_name }}';
+                }
+                if (data['purpose'] === 'Left Game') {
+                    if (data['from'] ==='{{ user.username }}') {
+                        alert("Your socket got disconnected. You're being redirected to your profile.");
+                    } else {
+                        alert("Your opponent disconnected. Redirecting to profile page.");
+                    }
+                    window.location.href = '/pairing/profile';
                 }
             }
         };
@@ -417,9 +431,10 @@
                     'Submit'
                 ));
                 rows.push(React.createElement(
-                   'h4',
+                    'h4',
                     {
-                        id: 'waitingFor'
+                        id: 'waitingFor',
+                        key: 'waitingFor'
                     },
 
                 ));
