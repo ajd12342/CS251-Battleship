@@ -56,17 +56,16 @@
     </style>
 {% endblock %}
 {% block title %}Place Ships{% endblock %}
-
+ {% load static %}
 {% block content %}
     <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center"> <span class="btn btn-warning">Battleship</span> </nav>
-    <div class="container">
+    <div class="container container-fluid">
         <br>
         <div class="row">
-            <div id="board_container" class="col-7"></div>
-            <div class="col-5"><img src="https://img1.picmix.com/output/stamp/normal/3/5/5/7/107553_b06b9.gif"></div>
+            <div class="container container-fluid col-7" id="board_container"></div>
+            <div class="col-5"><img src="{% static 'play/images/grid.png' %}"></div>
         </div>
     </div>
-    {% load static %}
     <script>
         var prev="1";
         var counts=Array(6).fill(0);
@@ -92,14 +91,6 @@
             if('game_id' in data && data['game_id']==={{ room_name }}) {
                 if (data['purpose'] === 'Complete') {
                     window.location.href = '/play/game/' + '{{ room_name }}';
-                }
-                if (data['purpose'] === 'Left Game') {
-                    if (data['from'] ==='{{ user.username }}') {
-                        alert("Your socket got disconnected. You're being redirected to your profile.");
-                    } else {
-                        alert("Your opponent disconnected. Redirecting to profile page.");
-                    }
-                    window.location.href = '/pairing/profile';
                 }
             }
         };
