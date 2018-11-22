@@ -31,9 +31,13 @@
             cursor: pointer;
             font-size: 25px;
         }
+        .labelDiv{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
 
-{#CSS taken from#}
-{#https://stackoverflow.com/questions/27108563/how-to-move-the-text-a-bit-up-and-to-the-right#}
+        {#CSS taken from#}
+        {#https://stackoverflow.com/questions/27108563/how-to-move-the-text-a-bit-up-and-to-the-right#}
 
 
         .logo_left, .logo_right {
@@ -339,20 +343,23 @@
                                 }
                             ),
                             React.createElement(
-                                "div",null,
-                            React.createElement(
-                                "label",
-                                {htmlFor: "s1",},
-                                React.createElement("img", { src: "{% static play %}/images/s1.png", id: "ship1", })
-                            ),
-                            React.createElement(
-                                "h3",
+                                "div",
                                 {
-                                    key: 'choose',
-                                    align: 'center',
+                                    className:'labelDiv',
                                 },
-                                counts[1]+"/"+upperCount[1]
-                            ),
+                                React.createElement(
+                                    "label",
+                                    {htmlFor: "s1",},
+                                    React.createElement("img", { src: "{% static play %}/images/s1.png", id: "ship1", })
+                                ),
+                                React.createElement(
+                                    "h3",
+                                    {
+                                        key: 'choose',
+                                        align: 'center',
+                                    },
+                                    counts[1]+"/"+upperCount[1]
+                                ),
                             ),
                         ),
                         React.createElement(
@@ -373,20 +380,20 @@
                                 }
                             ),
                             React.createElement(
-                                "div", null,
-                            React.createElement(
-                                "label",
-                                {htmlFor: "s2",},
-                                React.createElement("img", { src: "{% static play %}/images/s2.png", id: "ship2", })
-                            ),
-                            React.createElement(
-                                "h3",
-                                {
-                                    key: 'choose',
-                                    align: 'center',
-                                },
-                                counts[2]+"/"+upperCount[2]
-                            ),
+                                "div", {className:"labelDiv"},
+                                React.createElement(
+                                    "label",
+                                    {htmlFor: "s2",},
+                                    React.createElement("img", { src: "{% static play %}/images/s2.png", id: "ship2", })
+                                ),
+                                React.createElement(
+                                    "h3",
+                                    {
+                                        key: 'choose',
+                                        align: 'center',
+                                    },
+                                    counts[2]+"/"+upperCount[2]
+                                ),
                             ),
 
                         ),
@@ -408,20 +415,20 @@
                                 }
                             ),
                             React.createElement(
-                             "div",null,
-                            React.createElement(
-                                "label",
-                                {htmlFor: "s3",},
-                                React.createElement("img", { src: "{% static play %}/images/s3.png", id: "ship3", })
-                            ),
-                            React.createElement(
-                                "h3",
-                                {
-                                    key: 'choose',
-                                    align: 'center',
-                                },
-                                counts[3]+"/"+upperCount[3]
-                            ),
+                                "div",{className:"labelDiv"},
+                                React.createElement(
+                                    "label",
+                                    {htmlFor: "s3",},
+                                    React.createElement("img", { src: "{% static play %}/images/s3.png", id: "ship3", })
+                                ),
+                                React.createElement(
+                                    "h3",
+                                    {
+                                        key: 'choose',
+                                        align: 'center',
+                                    },
+                                    counts[3]+"/"+upperCount[3]
+                                ),
                             ),
                         ),
                         React.createElement(
@@ -442,20 +449,20 @@
                                 }
                             ),
                             React.createElement(
-                                "div",null,
-                            React.createElement(
-                                "label",
-                                {htmlFor: "s4",},
-                                React.createElement("img", { src: "{% static play %}/images/s4.png", id: "ship4", })
-                            ),
-                            React.createElement(
-                                "h3",
-                                {
-                                    key: 'choose',
-                                    align: 'center',
-                                },
-                                counts[4]+"/"+upperCount[4]
-                            ),
+                                "div",{className:"labelDiv"},
+                                React.createElement(
+                                    "label",
+                                    {htmlFor: "s4",},
+                                    React.createElement("img", { src: "{% static play %}/images/s4.png", id: "ship4", })
+                                ),
+                                React.createElement(
+                                    "h3",
+                                    {
+                                        key: 'choose',
+                                        align: 'center',
+                                    },
+                                    counts[4]+"/"+upperCount[4]
+                                ),
                             ),
                         ),
                         React.createElement(
@@ -476,20 +483,20 @@
                                 }
                             ),
                             React.createElement(
-                                "div",null,
-                            React.createElement(
-                                "label",
-                                {htmlFor: "s5",},
-                                React.createElement("img", { src: "{% static play %}/images/s5.png", id: "ship5", })
-                            ),
-                            React.createElement(
-                                "h3",
-                                {
-                                    key: 'choose',
-                                    align: 'center',
-                                },
-                                counts[5]+"/"+upperCount[5]
-                            ),
+                                "div",{className:"labelDiv"},
+                                React.createElement(
+                                    "label",
+                                    {htmlFor: "s5",},
+                                    React.createElement("img", { src: "{% static play %}/images/s5.png", id: "ship5", })
+                                ),
+                                React.createElement(
+                                    "h3",
+                                    {
+                                        key: 'choose',
+                                        align: 'center',
+                                    },
+                                    counts[5]+"/"+upperCount[5]
+                                ),
                             ),
                         ),
                     ),
