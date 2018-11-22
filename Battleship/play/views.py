@@ -26,4 +26,4 @@ def game(request,room_name):
     p1 = Game.objects.get(pk=room_name).player1
     if (p2 != request.user and p1 != request.user):
         return HttpResponseRedirect('/pairing/profile')
-    return render(request,'base.html',{'room_name' : mark_safe(room_name)})
+    return render(request,'play/game.html',{'room_name' : mark_safe(room_name)})

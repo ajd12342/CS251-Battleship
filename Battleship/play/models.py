@@ -7,10 +7,9 @@ class PlayerPieces(models.Model):
     # 3 of 1*1, 2 of 2*1, 1 of 4*1, 1 of 3 square L, 1 of 5 square T
     squares = PickledObjectField()
     # 0 not filled, 1 filled, 2 clicked
-    iOfSquaresOfType= PickledObjectField()
+    iOfSquaresOfType= PickledObjectField()  # Numbering for 1 and 2 is done from L to R
     jOfSquaresOfType= PickledObjectField()
-    squaresLeft=PickledObjectField()
-    whichShipsSunk=PickledObjectField()
+    squaresLeft=PickledObjectField()  # Each type indexes into squaresLeft. 1 1 1 2 2 3 4 5
 
 class Game(models.Model):
     player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player1')
