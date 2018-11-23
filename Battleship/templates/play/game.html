@@ -153,7 +153,6 @@
                         'iAmPlayer1': this.iAmPlayer1,
                         'game_id': {{ room_name }},
                     }));
-                    alert("Sent");
                 }
             }
             renderSquare(i, j) {
@@ -351,6 +350,7 @@
                 			{
                 				id: 'chat_container_1',
                 				key: 'chat_container_1',
+                                className: 'panel panel-primary'
                 			},
                 			'Text Hello'
                 		),
@@ -517,7 +517,7 @@
                         if (data['purpose'] === 'Game_Chat') {
                             //alert("HMM");
                             let sendee=this.state.sendee.slice();
-                            console.log(sendee);
+                            //console.log(sendee);
                             let message=this.state.message.slice();
                             sendee.push(data['from']);
                             message.push(data['message']);
@@ -526,8 +526,8 @@
                                 message: message,
 
                             });
-                            console.log(sendee);
-                            console.log(message);
+                            //console.log(sendee);
+                            //console.log(message);
                         }
                     }
                 }
@@ -545,8 +545,9 @@
             }
             render(){
                 let rows=[];
+                let mesgs = [];
                 for(let i=0;i<this.state.message.length;i++) {
-                    rows.push(
+                    mesgs.push(
                         React.createElement(
                             'div',
                             {
@@ -572,6 +573,23 @@
                 }
                 rows.push(
                     React.createElement(
+                        'br',
+                        {
+                            key: 'br'
+                        },
+                    )
+                );
+                rows.push(
+                    React.createElement(
+                        'div',
+                        {
+                            className: 'panel-body'
+                        },
+                        mesgs
+                    )
+                );
+                rows.push(
+                    React.createElement(
                     'div',
                     {
                         className: 'panel-footer',
@@ -589,7 +607,8 @@
                         {
                             type: "button",
                             onClick: () => this.sendMessage(),
-                        }
+                            value: "Send",
+                        },
                     ),
                     )
                 );
