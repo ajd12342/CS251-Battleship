@@ -611,6 +611,7 @@
 
             sendMessage(){
                 let message=document.getElementById('message').value;
+                document.getElementById('message').setValue('');
                 this.socket.send(JSON.stringify({
                     'type':'chat_message',
                     'purpose': 'Game_Chat',
@@ -619,6 +620,11 @@
                     'from': '{{ user.username }}'
                 }))
             }
+            handleKeyPress=(event)=>{
+                if(event.key==='Enter'){
+                    this.sendMessage()
+                }
+            };
             render(){
                 let rows=[];
                 let mesgs = [];
@@ -676,7 +682,8 @@
                             {
                                 type: 'text',
                                 id: 'message',
-                                className: 'chat-text-input'
+                                className: 'chat-text-input',
+                                onKeyPress: ()=>this.sendMessage(),
                             }
                         ),
                         React.createElement(
