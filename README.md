@@ -49,3 +49,7 @@ An online version of the Battleship Game with some additional features for CS-25
  
 ## An Example Placing of Ships
 ![alt text](https://github.com/ajd12342/CS251-Battleship/blob/master/sample.png)
+
+## An Example Game (Just started playing)
+![alt text](https://github.com/ajd12342/CS251-Battleship/blob/master/game.png)
+
