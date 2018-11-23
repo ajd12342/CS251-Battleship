@@ -110,7 +110,14 @@
                             }
                         }
                         if(type===2){
-                            pos=pos - pos%2;
+                            if(pos===0 || pos===1){
+                                pos=0;
+                            }else if(pos===2 || pos===3){
+                                pos=1;
+                            }
+                        }
+                        if(type>=3){
+                            pos=0;
                         }
                         if(squaresLeft[type][pos]>0){
                             squaresLeft[type][pos]--;
@@ -139,7 +146,6 @@
                     if((this.iAmPlayer1&&activePlayerIsMe) || (!this.iAmPlayer1 && !activePlayerIsMe)){
                         activePlayerIs1=true;
                     }
-                    console.log()
                     this.socket.send(JSON.stringify({
                         'type': 'chat_message',
                         'from': '{{ user.username }}',
@@ -153,6 +159,7 @@
                         'iAmPlayer1': this.iAmPlayer1,
                         'game_id': {{ room_name }},
                     }));
+                    alert("Sent");
                 }
             }
             renderSquare(i, j) {
