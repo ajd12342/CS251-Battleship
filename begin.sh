@@ -8,6 +8,10 @@ pip3 install -U channels
 pip3 install -U channels-redis
 pip3 install -U django-picklefield
 
-cd Battleship
-redis-server --port 10000 &
-python3 manage.py runserver
+if [ $# -eq 0 ];
+then
+  echo "Usage: sudo bash begin.sh <server_ip>";
+  exit 1;
+fi
+  
+bash run.sh "$1"
