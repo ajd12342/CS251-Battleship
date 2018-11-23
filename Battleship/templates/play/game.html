@@ -344,6 +344,17 @@
                             ),
                         ),
                     )
+                } else if(this.myBoard){
+                	rows.push(
+                		React.createElement(
+                			'div',
+                			{
+                				id: 'chat_container_1',
+                				key: 'chat_container_1',
+                			},
+                			'Text Hello'
+                		),
+                	)	
                 }
                 let className='col-6';
                 if(this.myBoard){
@@ -585,22 +596,23 @@
                 return React.createElement(
                     'div',
                     null,
-                    rows);
+                    rows
+                );
             }
         }
 
         {#The chat part ends here#}
         {##}
 
-        let c=React.createElement(
-            GameChat,
-            null,
-        );
-        ReactDOM.render(c,document.getElementById('chat_container'));
         let p=React.createElement(
             Parent,
             null,
         );
         ReactDOM.render(p,document.getElementById('parent_container'));
+        let c=React.createElement(
+            GameChat,
+            null,
+        );
+        ReactDOM.render(c,document.getElementById('chat_container_1'));
     </script>
 {% endblock %}
