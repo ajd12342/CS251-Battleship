@@ -14,6 +14,9 @@ An online version of the Battleship Game with some additional features for CS-25
   - If all the dependencies are already installed then, run the following to start the server:
   
         bash run.sh <server_ip>
+  - Login credentials for Django admin:
+      - Username: ajd
+      - Password: ajd
  
  ## Guide to Start Playing
  - Get the ip address of the server `<server_ip>`
