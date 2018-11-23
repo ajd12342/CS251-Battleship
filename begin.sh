@@ -8,7 +8,7 @@ pip3 install -U channels
 pip3 install -U channels-redis
 pip3 install -U django-picklefield
 
-if [ $# -eq 0 ];
+if [ $# -ne 1 ];
 then
   echo "Usage: sudo bash begin.sh <server_ip>";
   exit 1;
