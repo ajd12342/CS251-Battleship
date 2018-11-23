@@ -57,38 +57,63 @@
             </div>
         </div>
     </div>
-    <h4 class="container">Click on any user to send a play request:</h4>
-    {% if users %}
-        <ul id="l" style="list-style-type:none" class="container">
-            {% for userit in users %}
-                <!-- NOTE: We escape HTML to prevent XSS attacks. -->
-                {% ifnotequal userit.username user.username %}
-                    <li data-username="{{ userit.username|escape }}" class="jumbotron justify-content-center clickable">
-                        <h4 align="center">{{ userit.username|escape }}</h4>
-                        <hr>
-                        <table cellpadding="10px">
-                            <tr>
-                                <th>About</th>
-                                <td colspan="5">{{ userit.profile.bio|escape }}</td>
-                            </tr>
-                            <tr>
-                                <th>Location</th>
-                                <td colspan="5">{{ userit.profile.location|escape  }}</td>
-                            </tr>
-                            <tr>
-                                <th>Total Score: </th>
-                                <td>{{ user.profile.totalScore|escape }} </td>
-                                <th>Games Played: </th>
-                                <td>{{ user.profile.noOfGamesPlayed|escape }} </td>
-                                <th>Games Won: </th>
-                                <td>{{ user.profile.noOfGamesWon|escape }} </td>
-                            </tr>
-                        </table>
-                    </li>
-                {% endifnotequal %}
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <div class="row">
+        <div class="col-8 container">
+            <h4 class="container">Click on any user to send a play request:</h4>
+            {% if users %}
+                <ul id="l" style="list-style-type:none" class="container listpairs">
+                    {% for userit in users %}
+                        <!-- NOTE: We escape HTML to prevent XSS attacks. -->
+                        {% ifnotequal userit.username user.username %}
+                            <li data-username="{{ userit.username|escape }}" class="jumbotron justify-content-center clickable">
+                                <h4 align="center">{{ userit.username|escape }}</h4>
+                                <hr>
+                                <table cellpadding="10px">
+                                    <tr>
+                                        <th>About</th>
+                                        <td colspan="5">{{ userit.profile.bio|escape }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Location</th>
+                                        <td colspan="5">{{ userit.profile.location|escape  }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total Score: </th>
+                                        <td>{{ user.profile.totalScore|escape }} </td>
+                                        <th>Games Played: </th>
+                                        <td>{{ user.profile.noOfGamesPlayed|escape }} </td>
+                                        <th>Games Won: </th>
+                                        <td>{{ user.profile.noOfGamesWon|escape }} </td>
+                                    </tr>
+                                </table>
+                            </li>
+                        {% endifnotequal %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div id='leaderboard' class="col-4 container">
+            <ul style="list-style-type:none" class="container">
+                <li class="row">
+                    <h5 class="col-6" style="font-weight: bold">Username</h5>
+                    <h5 class="col-6" style="font-weight: bold" align="right">Total Score</h5>
+                </li>
+            </ul>
+            {% if users %}
+                <ul id="leaderboard" style="list-style-type:none" class="container leaderusers">
+                    {% for userit in users %}
+                        <!-- NOTE: We escape HTML to prevent XSS attacks. -->
+                        <li class="row"
+                            data-position="{{ userit.profile.totalScore }}"
+                            data-games="{{ userit.profile.noOfGamesWon }}">
+                            <h5 class="col-6">{{ userit.username|escape }}</h5>
+                            <h5 class="col-6" align="right">{{ userit.profile.totalScore }}</h5>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
     <script>
         var receivedData='';
         $(document).ready(function () {
@@ -97,7 +122,7 @@
             {% if users %}
                 {% for userit in users %}
                     {% if not userit.profile.isAvailable %}
-                        var user = $('li').filter(function () {
+                        var user = $('.listpairs li').filter(function () {
                             return $(this).data('username') === "{{ userit.username }}";
                         });
                         user.hide();
@@ -202,6 +227,19 @@
         });
         if (socket.readyState === WebSocket.OPEN) {
             socket.onopen();
+        }
+        $(".leaderusers li").sort(sort_li) // sort elements
+            .appendTo('.leaderusers'); // append again to the list
+        // sort function callback
+        function sort_li(a, b){
+            let retval=-1;
+            if(($(b).data('position')) > ($(a).data('position'))){
+                retval=1;
+            }else if((($(b).data('position')) === ($(a).data('position')))&&
+                (($(b).data('games')) > ($(a).data('games')))){
+                retval=1;
+            }
+            return retval;
         }
     </script>
 {% endblock %}

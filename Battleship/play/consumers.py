@@ -200,9 +200,10 @@ class GameConsumer(AsyncWebsocketConsumer):
                         g.player1.profile.noOfGamesPlayed+=1
                         g.player2.profile.noOfGamesPlayed+=1
                         g.player1.profile.noOfGamesWon+=1
-                        g.player2.profile.totalScore += g.player2Score
+                        g.player1.profile.totalScore += g.player1Score
                         g.player1.save()
                         g.player2.save()
+
                         g.save()
                         await self.channel_layer.group_send(
                             self.room_group_name,

@@ -66,7 +66,22 @@
         <br>
         <div class="row">
             <div class="container container-fluid col-7" id="board_container"></div>
-            <div class="col-5"><img src="{% static 'play/images/grid.png' %}"></div>
+            <div class="col-5"><img src="{% static 'play/images/grid.png' %}">
+                <div class="">
+                    <ol>
+                        <li>To place a ship on the board, first click the ship's shape
+                            to select it
+                            and then click a location on the board. The square marked
+                            by an 'X' will be placed at the clicked location.
+                        </li>
+                        <li>To rotate a ship and place it, first click the ship's shape
+                            to select it. Any subsequent clicks on the same shape will
+                            rotate it. Place on the board as before.
+                        </li>
+                        <li>After completing placing of all ships, click the Submit button.</li>
+                    </ol>
+                </div>
+            </div>
         </div>
     </div>
     <script>
