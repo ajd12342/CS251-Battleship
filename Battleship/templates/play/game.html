@@ -131,9 +131,7 @@
                         let type=0;
                         for(let k1=1;k1<=5;k1++){
                             for(let k2=0;k2<this.state.iOfSquaresOfType[k1].length;k2++) {
-                                // console.log(this.state.iOfSquaresOfType[k1]===i);
                                 if (this.state.iOfSquaresOfType[k1][k2] === i && this.state.jOfSquaresOfType[k1][k2] === j) {
-                                    console.log("E");
                                     type=k1;
                                     pos=k2;
                                 }
@@ -156,14 +154,6 @@
                             }
                         }
                     }
-                    console.log({
-                        squares: squares,
-                        iOfSquaresOfType: iOfSquaresOfType,
-                        jOfSquaresOfType: jOfSquaresOfType,
-                        noOfSunkShips: noOfSunkShips,
-                        squaresLeft: squaresLeft,
-                        activePlayerIsMe: activePlayerIsMe,
-                    });
                     this.setState({
                         squares: squares,
                         iOfSquaresOfType: iOfSquaresOfType,
@@ -191,7 +181,6 @@
                         'game_id': {{ room_name }},
                         'score': score,
                     }));
-                    // alert("Sent");
                 }
             }
             startCountDown() {
@@ -203,19 +192,14 @@
                     }else {
                         seconds=seconds-0.1;
                     }
-                    console.log(seconds);
                 }, 100);
             }
             renderSquare(i, j) {
                 let k = 10 * i + j;
                 let type=0;
-                //console.log(this.state.jOfSquaresOfType);
-                //console.log(this.state.iOfSquaresOfType);
                 for(let k1=1;k1<=5;k1++){
                     for(let k2=0;k2<this.state.iOfSquaresOfType[k1].length;k2++) {
-                        // console.log(this.state.iOfSquaresOfType[k1]===i);
                         if (this.state.iOfSquaresOfType[k1][k2] === i && this.state.jOfSquaresOfType[k1][k2] === j) {
-                            console.log("E");
                             type = k1;
                         }
                     }
@@ -253,7 +237,6 @@
             render() {
 
                 let rows = [];
-                console.log(this.myBoard,this.state.iOfSquaresOfType);
                 for (let i = 0; i < 10; i++) {
                     for (let j = 0; j < 10; j++) {
 
@@ -476,7 +459,6 @@
                     activePlayerIsMe: activePlayerIsMe
                 });
                 document.getElementById('score').innerHTML=score;
-                console.log("Seconds:" + seconds );
                 if(!boardref.myBoard && activePlayerIsMe){
                     boardref.startCountDown();
                 }
@@ -500,16 +482,6 @@
                 this.socket.onmessage = (event) => {
                     var data = JSON.parse(event.data);
                     if ('game_id' in data && data['game_id'] ==={{ room_name }}) {
-                        //if (data['purpose'] === 'Left Game') {
-                        //  if (data['from'] === '{{ user.username }}') {
-                        //    alert("Your socket got disconnected. You're being redirected to your profile.");
-                        //} else {
-                        //  alert("Your opponent disconnected. Redirecting to profile page.");
-                        //Fix it to 'you won' when we fix code
-                        //Add scoring code here
-                        //}
-                        //window.location.href = '/pairing/profile';
-                        //}
                         if (data['purpose'] === 'Initialize Game' || data['purpose']==='Update State') {
                             this.iAmPlayer1=(data['p1']==='{{ user.username }}');
                             this.board1.iAmPlayer1=this.iAmPlayer1;
@@ -591,9 +563,7 @@
                     var data = JSON.parse(event.data);
                     if ('game_id' in data && data['game_id'] ==={{ room_name }}) {
                         if (data['purpose'] === 'Game_Chat') {
-                            //alert("HMM");
                             let sendee=this.state.sendee.slice();
-                            //console.log(sendee);
                             let message=this.state.message.slice();
                             sendee.push(data['from']);
                             message.push(data['message']);
@@ -603,8 +573,6 @@
 
                             });
                             document.getElementById('chat-body').scrollTop=document.getElementById('chat-body').scrollHeight;
-                            //console.log(sendee);
-                            //console.log(message);
                         }
                     }
                 }

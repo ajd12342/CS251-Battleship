@@ -153,26 +153,45 @@
             }
             if('purpose' in data){
                 if(data['purpose']==='Send_Request') {
-                    $('#modalBody').text(data['from']);
+                    $('#modalBody').text(data['from']+' has sent a request.');
                     $('#myModal').modal('show');
                     request_from=data['from'];
+                    socket.send(JSON.stringify(
+                        {
+                            'type': 'chat_message',
+                            'logged_username': '{{user.username}}',
+                            'is_logged_in':false
+                        }
+                    ));
                 }
                 if(data['purpose']==='Accept_Request'){
-                    //alert("Your request was accepted.");
                     sendID(data['game_id']);
                     let pathto=data['game_id'];
                     window.location.href = '/play/place/'+pathto;
                 }
                 if(data['purpose']==='Reject_Request'){
                     $('#waitModal').modal('hide');
+                    socket.send(JSON.stringify(
+                        {
+                            'type': 'chat_message',
+                            'logged_username': '{{user.username}}',
+                            'is_logged_in': true,
+                        }
+                    ));
                     alert("Your request was rejected. Lol.");
                 }
                 if(data['purpose']==='Cancel_Request'){
                     $('#myModal').modal('hide');
+                    socket.send(JSON.stringify(
+                        {
+                            'type': 'chat_message',
+                            'logged_username': '{{user.username}}',
+                            'is_logged_in': true,
+                        }
+                    ));
                 }
                 if(data['purpose']==='Game_ID'){
                     let pathto=data['game_id'];
-                    //alert(data['game_id']);
                     window.location.href = '/play/place/'+pathto;
                 }
             }
@@ -196,17 +215,30 @@
                     'to': send_to_username,
                     'purpose': 'Send_Request'
                 }));
+                socket.send(JSON.stringify(
+                        {
+                            'type': 'chat_message',
+                            'logged_username': '{{user.username}}',
+                            'is_logged_in': false,
+                        }
+                    ));
                 $('#waitModal').modal('show');
             }
         });
         $(document).on("click","#accept",function () {
-            alert(request_from);
             socket.send(JSON.stringify({
                 'type': 'chat_message',
                 'from': '{{ user.username }}',
                 'to': request_from,
                 'purpose': 'Accept_Request'
             }));
+            socket.send(JSON.stringify(
+                        {
+                            'type': 'chat_message',
+                            'logged_username': '{{user.username}}',
+                            'is_logged_in': false,
+                        }
+                    ));
         });
         $(document).on("click","#reject",function () {
             socket.send(JSON.stringify({
@@ -215,6 +247,13 @@
                 'to': request_from,
                 'purpose': 'Reject_Request'
             }));
+            socket.send(JSON.stringify(
+                        {
+                            'type': 'chat_message',
+                            'logged_username': '{{user.username}}',
+                            'is_logged_in': true,
+                        }
+                    ));
         });
         $(document).on("click","#cancel",function () {
             socket.send(JSON.stringify({
@@ -223,6 +262,13 @@
                 'to': sentTo,
                 'purpose': 'Cancel_Request'
             }));
+            socket.send(JSON.stringify(
+                        {
+                            'type': 'chat_message',
+                            'logged_username': '{{user.username}}',
+                            'is_logged_in': true,
+                        }
+                    ));
         });
         if (socket.readyState === WebSocket.OPEN) {
             socket.onopen();

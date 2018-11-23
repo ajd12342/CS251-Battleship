@@ -20,7 +20,6 @@ class SubmitConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         # Leave room group
-        print(self.user.username,"Left")
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -38,28 +37,17 @@ class SubmitConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        print(event)
-        print(self.game_id)
         if(event['purpose']=='Set Game ID' and self.user.username==event['from']):
             self.game_id=event['game_id']
         else:
             if(event['game_id']==self.game_id):
                 if(event['purpose']=='Left Game'):
-                    # g=Game.objects.get(pk=event['game_id'])
-                    # p1=g.player1Pieces
-                    # p2=g.player2Pieces
-                    # g.delete()
-                    # p1.delete()
-                    # p2.delete()
-                    print(event)
-                    print("Left")
                     await self.send(text_data=json.dumps(event))
                 if(event['purpose']=='Placing done'):
                     g=Game.objects.get(pk=event['game_id'])
                     if(self.user.username==event['from']):
 
                         if(g.player1.username==event['from']):
-                            print("enter")
                             g.player1Placed=True
                             g.player1Score=0
                             g.player1Pieces.noOfSunkShips=0
@@ -80,8 +68,6 @@ class SubmitConsumer(AsyncWebsocketConsumer):
                             g.player2Pieces.save()
                             g.save()
                     if(g.player1Placed and g.player2Placed):
-                        print("Entered final check")
-                        print(event['game_id'])
                         await self.channel_layer.group_send(
                             self.room_group_name,
                             {
@@ -111,7 +97,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         # Leave room group
-        print(self.user.username,"Left")
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -129,27 +114,16 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        print(event)
         if(event['purpose']=='Set Game ID' and self.user.username==event['from']):
             self.game_id=event['game_id']
-            print(json.dumps(gameState(self.game_id,self.user.username,'Initialize Game')))
             await self.send(text_data=json.dumps(gameState(self.game_id,self.user.username,'Initialize Game')))
         elif(self.game_id==event['game_id']):
             if(event['purpose']=='Left Game'):
-            # g=Game.objects.get(pk=event['game_id'])
-            # p1=g.player1Pieces
-            # p2=g.player2Pieces
-            # g.delete()
-            # p1.delete()
-            # p2.delete()
-                print(event)
-                print("Left")
                 await self.send(text_data=json.dumps(event))
             if(event['purpose']=='Update State for Django'):
                 g = Game.objects.get(pk=event['game_id'])
                 if(self.user.username==event['from']):
                     if(event['iAmPlayer1']):
-                        print(event['noOfSunkShips'])
                         g.player2Pieces.noOfSunkShips = event['noOfSunkShips']
                         g.player2Pieces.squares = event['squares']
                         g.player2Pieces.iOfSquaresOfType = event['iOfSquaresOfType']
@@ -175,7 +149,6 @@ class GameConsumer(AsyncWebsocketConsumer):
                         self.room_group_name,
                         gameState(self.game_id,self.user.username,'Update State')
                     )
-                    #print(g.player1Pieces.noOfSunkShips)
                     if(g.player1Pieces.noOfSunkShips==8):
                         g.winner=g.player2
                         g.player1.profile.noOfGamesPlayed += 1
@@ -192,10 +165,10 @@ class GameConsumer(AsyncWebsocketConsumer):
                                 'from': self.user.username,
                                 'purpose': 'Game Over',
                                 'winner': g.player2.username,
+                                'game_id': self.game_id,
                             }
                         )
                     elif (g.player2Pieces.noOfSunkShips == 8):
-                        print("Entered")
                         g.winner = g.player1
                         g.player1.profile.noOfGamesPlayed+=1
                         g.player2.profile.noOfGamesPlayed+=1
@@ -218,31 +191,30 @@ class GameConsumer(AsyncWebsocketConsumer):
             if(event['purpose']=='Update State'):
                 await self.send(json.dumps(event))
             if(event['purpose']=='Game Over'):
-                print("Actual entered")
                 await self.send(json.dumps(event))
 def gameState(game_id,from_username,purpose):
     g=Game.objects.get(pk=game_id)
     return {
-                'type': 'chat_message',
-                'from': from_username,
-                'purpose': purpose,
-                'p1': g.player1.username,
-                'p2': g.player2.username,
-                'p1squares': g.player1Pieces.squares,
-                'p1iOfSquaresOfType': g.player1Pieces.iOfSquaresOfType,
-                'p1jOfSquaresOfType': g.player1Pieces.jOfSquaresOfType,
-                'p1noOfSunkShips':g.player1Pieces.noOfSunkShips,
-                'p1squaresLeft':g.player1Pieces.squaresLeft,
-                'p1score':g.player1Score,
-                'p2squares': g.player2Pieces.squares,
-                'p2iOfSquaresOfType': g.player2Pieces.iOfSquaresOfType,
-                'p2jOfSquaresOfType': g.player2Pieces.jOfSquaresOfType,
-                'p2noOfSunkShips': g.player2Pieces.noOfSunkShips,
-                'p2squaresLeft': g.player2Pieces.squaresLeft,
-                'p2score': g.player2Score,
-                'activePlayerIs1':g.activePlayerIs1,
-                'game_id': game_id,
-            }
+        'type': 'chat_message',
+        'from': from_username,
+        'purpose': purpose,
+        'p1': g.player1.username,
+        'p2': g.player2.username,
+        'p1squares': g.player1Pieces.squares,
+        'p1iOfSquaresOfType': g.player1Pieces.iOfSquaresOfType,
+        'p1jOfSquaresOfType': g.player1Pieces.jOfSquaresOfType,
+        'p1noOfSunkShips':g.player1Pieces.noOfSunkShips,
+        'p1squaresLeft':g.player1Pieces.squaresLeft,
+        'p1score':g.player1Score,
+        'p2squares': g.player2Pieces.squares,
+        'p2iOfSquaresOfType': g.player2Pieces.iOfSquaresOfType,
+        'p2jOfSquaresOfType': g.player2Pieces.jOfSquaresOfType,
+        'p2noOfSunkShips': g.player2Pieces.noOfSunkShips,
+        'p2squaresLeft': g.player2Pieces.squaresLeft,
+        'p2score': g.player2Score,
+        'activePlayerIs1':g.activePlayerIs1,
+        'game_id': game_id,
+    }
 
 
 # The chat part starts here
@@ -280,7 +252,6 @@ class GameChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        print(event)
         if (event['purpose'] == 'Set Game ID' and self.user.username == event['from']):
             self.game_id = event['game_id']
         elif self.game_id==event['game_id']:

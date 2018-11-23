@@ -57,7 +57,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        print(event)
         if('logged_username' in event):
             await self.send(text_data=json.dumps(event))
         if('purpose' in event and (event['to']==self.user.username or event['from']==self.user.username)):

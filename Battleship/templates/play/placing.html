@@ -263,13 +263,9 @@
             renderSquare(i, j) {
                 let k = 10 * i + j;
                 let type=0;
-                //console.log(this.state.jOfSquaresOfType);
-                //console.log(this.state.iOfSquaresOfType);
                 for(let k1=1;k1<=5;k1++){
                     for(let k2=0;k2<this.state.iOfSquaresOfType[k1].length;k2++) {
-                        // console.log(this.state.iOfSquaresOfType[k1]===i);
                         if (this.state.iOfSquaresOfType[k1][k2] === i && this.state.jOfSquaresOfType[k1][k2] === j) {
-                            console.log("E");
                             type = k1;
                         }
                     }
