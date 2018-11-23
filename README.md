@@ -24,8 +24,14 @@ An online version of the Battleship Game with some additional features for CS-25
     - To rotate a ship and place it, first click the ship's shape to select it. Any subsequent clicks on the same shape will rotate it. Place on the board as before.
     - After completing placing of all ships, click the Submit button.
  - Once your opponent finishes placing their ships, both of you will be directed to the game page
+ - Each player is given a chance to shoots at their opponent's ships alternatively. Each turn lasts for 20 seconds after which you forfeit you turn and the opponent plays. For a correct move you get another move.
  - Enjoy the game :smiley:
  
+ ## Scoring
+ - For each correct shot fired in time `t` seconds the player is awarded `20-t` points
+ - For each wrong shot fired, no points are awarded or deducted
+ - At the end of the game, the winner is awarded points equal the sum of points awarded at each move
+  
  ## Dependencies
  - __Linux__
    - Python Dev
