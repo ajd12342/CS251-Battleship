@@ -21,6 +21,6 @@ urlpatterns = [
     path('play/',include(('play.urls','play'),namespace='play')),
     path('admin/', admin.site.urls),
     path('accounts/',include('django.contrib.auth.urls')),
-    path('',include('pairing.urls'),
+    path('',include('pairing.urls')),
     # path('accounts/signup/', views.SignUp.as_view(),name='signup'),
 ]

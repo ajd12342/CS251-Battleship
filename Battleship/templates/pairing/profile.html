@@ -1,18 +1,45 @@
 {% extends 'base.html' %}
 {% block title %}Profile{% endblock %}
+{% block style %}
+    <style>
+        h5{
+            min-height: 24px;
+        }
+    </style>
+{% endblock %}
 {% block content %}
-<nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top justify-content-end">
-	<a href="{% url 'profile' %}" class="navbar-brand">{{user.username}}</a>
-    <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
-</nav>
-<br>
-<div class="container jumbotron justify-content-centre">
-	<h1 class="row">Welcome, {{user.username}}.</h1>
-    <div class="row">
-        <h4>Bio: {{ user.profile.bio|escape }} </h4>
-        <h4>Location: {{ user.profile.location|escape }}</h4>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top justify-content-end">
+        <a href="{% url 'profile' %}" class="navbar-brand">{{user.username}}</a>
+        <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+    </nav>
+    <br>
+    <div class="container jumbotron justify-content-centre">
+        <h1 class="row">Welcome, {{user.username}}.</h1>
+        <div class="row">
+            <table cellpadding="4px">
+                <tbody >
+                <tr>
+                    <td><h5>Bio: </h5></td>
+                    <td><h5>{{ user.profile.bio|escape }} </h5></td>
+                <tr>
+                    <td><h5>Location: </h5></td>
+                    <td><h5>{{ user.profile.location|escape }} </h5></td>
+                <tr>
+                    <td><h5>Total Score: </h5></td>
+                    <td><h5>{{ user.profile.totalScore|escape }} </h5></td>
+                </tr>
+                <tr>
+                    <td><h5>Games Played: </h5></td>
+                    <td><h5>{{ user.profile.noOfGamesPlayed|escape }} </h5></td>
+                </tr>
+                <tr>
+                    <td><h5>Games Won: </h5></td>
+                    <td><h5>{{ user.profile.noOfGamesWon|escape }} </h5></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <a href="{% url 'list' %}" class="btn btn-success">Begin Game</a>
     </div>
-	<hr>
-	<a href="{% url 'list' %}" class="btn btn-success">Begin Game</a>
-</div>
 {% endblock %}

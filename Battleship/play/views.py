@@ -33,8 +33,14 @@ def finish(request,room_name):
     g=Game.objects.get(pk=room_name)
     p2 = g.player2
     p1 = g.player1
+    winner=g.winner.username
+    p1P=g.player1Pieces
+    p2P=g.player2Pieces
+    g.delete()
+    p1P.delete()
+    p2P.delete()
     if (p2 != request.user and p1 != request.user):
         return HttpResponseRedirect('/pairing/profile')
     return render(request,'play/finish.html',{'room_name' : mark_safe(room_name),
-                                              'winner': g.winner.username})
+                                              'winner': winner})
 

@@ -57,24 +57,35 @@
             </div>
         </div>
     </div>
+    <h4 class="container">Click on any user to send a play request:</h4>
     {% if users %}
         <ul id="l" style="list-style-type:none" class="container">
             {% for userit in users %}
                 <!-- NOTE: We escape HTML to prevent XSS attacks. -->
-                <li data-username="{{ userit.username|escape }}" class="jumbotron justify-content-center clickable">
-                    <h4 align="center">{{ userit.username|escape }}</h4>
-                    <hr>
-                    <table cellpadding="10px">
-                        <tr>
-                            <th>About</th>
-                            <td>{{ userit.profile.bio|escape }}</td>
-                        </tr>
-                        <tr>
-                            <th>Location</th>
-                            <td>{{ userit.profile.location|escape  }}</td>
-                        </tr>
-                    </table>
-                </li>
+                {% ifnotequal userit.username user.username %}
+                    <li data-username="{{ userit.username|escape }}" class="jumbotron justify-content-center clickable">
+                        <h4 align="center">{{ userit.username|escape }}</h4>
+                        <hr>
+                        <table cellpadding="10px">
+                            <tr>
+                                <th>About</th>
+                                <td colspan="5">{{ userit.profile.bio|escape }}</td>
+                            </tr>
+                            <tr>
+                                <th>Location</th>
+                                <td colspan="5">{{ userit.profile.location|escape  }}</td>
+                            </tr>
+                            <tr>
+                                <th>Total Score: </th>
+                                <td>{{ user.profile.totalScore|escape }} </td>
+                                <th>Games Played: </th>
+                                <td>{{ user.profile.noOfGamesPlayed|escape }} </td>
+                                <th>Games Won: </th>
+                                <td>{{ user.profile.noOfGamesWon|escape }} </td>
+                            </tr>
+                        </table>
+                    </li>
+                {% endifnotequal %}
             {% endfor %}
         </ul>
     {% endif %}
