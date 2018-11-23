@@ -24,12 +24,27 @@
         ul[id='ul'] > li{
             display: inline-block;
         }
+        .chat{
+            width: 400px;
+            border-style: solid;
+            border-width: 2px;
+            padding: 10px;
+        }
+        .chat-text-input{
+            width: 310px;
+            padding: 4px;
+        }
+        .chat-body{
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 150px;
+        }
     </style>
 {% endblock %}
 {% block title %}Place Ships{% endblock %}
 
 {% block content %}
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-end"> <span style="height: auto; " id="timer"></span> </nav>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-end"> <span style="height: auto; color:white;" id="timer">0.00</span> </nav>
     <div class="container container-fluid">
         <br>
         <div class="row">
@@ -47,7 +62,7 @@
         upperCount[3]=1;
         upperCount[4]=1;
         upperCount[5]=1;
-        let seconds=5;
+        let seconds=20;
         let intervalHandle=null;
         let timeUp=false;
         function Square(props) {
@@ -164,7 +179,7 @@
                         'iAmPlayer1': this.iAmPlayer1,
                         'game_id': {{ room_name }},
                     }));
-                    alert("Sent");
+                    // alert("Sent");
                 }
             }
             startCountDown() {
@@ -371,14 +386,21 @@
                 } else if(this.myBoard){
                     rows.push(
                         React.createElement(
+                            'br',
+                            {
+                                key:'br',
+                            }
+                        )
+                    );
+                    rows.push(
+                        React.createElement(
                             'div',
                             {
                                 id: 'chat_container_1',
                                 key: 'chat_container_1',
-                                className: 'panel panel-primary'
                             },
                         ),
-                    )
+                    );
                 }
                 let className='col-6';
                 if(this.myBoard){
@@ -409,7 +431,7 @@
                     );
                 seconds=0;
                 if(activePlayerIsMe){
-                    seconds=5;
+                    seconds=20;
                 }
                 if((boardref.myBoard && data['p1']==='{{ user.username }}') ||
                     (!boardref.myBoard && data['p2']==='{{ user.username }}')){
@@ -605,6 +627,16 @@
                 }
                 rows.push(
                     React.createElement(
+                        'div',
+                        {
+                            className: 'chat-body',
+                            key: 'chat-body',
+                        },
+                        mesgs
+                    )
+                );
+                rows.push(
+                    React.createElement(
                         'br',
                         {
                             key: 'br'
@@ -613,41 +645,34 @@
                 );
                 rows.push(
                     React.createElement(
-                        'div',
-                        {
-                            className: 'panel-body',
-                            key: 'panel-body',
-                        },
-                        mesgs
-                    )
-                );
-                rows.push(
+                    'div',
+                    {
+                        key: 'row'
+                    },
                     React.createElement(
-                        'div',
+                        'input',
                         {
-                            className: 'panel-footer',
-                            key: 'row'
+                            type: 'text',
+                            id: 'message',
+                            className: 'chat-text-input'
+                        }
+                    ),
+                    React.createElement(
+                        "input",
+                        {
+                            type: "button",
+                            onClick: () => this.sendMessage(),
+                            value: "Send",
+                            className: 'btn btn-primary'
                         },
-                        React.createElement(
-                            'input',
-                            {
-                                type: 'text',
-                                id: 'message',
-                            }
-                        ),
-                        React.createElement(
-                            "input",
-                            {
-                                type: "button",
-                                onClick: () => this.sendMessage(),
-                                value: "Send",
-                            },
-                        ),
+                    ),
                     )
                 );
                 return React.createElement(
                     'div',
-                    null,
+                    {
+                        className: 'chat',    
+                    },
                     rows
                 );
             }
