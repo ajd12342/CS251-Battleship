@@ -57,10 +57,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        ret={}
-        if('purpose' in event):
+        print(event)
+        if('logged_username' in event):
+            await self.send(text_data=json.dumps(event))
+        if('purpose' in event and (event['to']==self.user.username or event['from']==self.user.username)):
             if event['to']==self.user.username and event['to'] != event['from']:
-                ret=event
                 if(event['purpose']=='Accept_Request'):
                     g=Game.objects.create(player1=self.user,
                                           player2=User.objects.get(username=event['from']),
@@ -75,11 +76,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                           player2Placed=False,
                                           player2Score=0,
                                           )
-                    ret['game_id'] = g.id
+                    event['game_id'] = g.id
+                await self.send(text_data=json.dumps(event))
         # if event['to']==self.user.username:
         #     print("Works")
-        else:
-            # Send message to WebSocket
-            ret=event
-
-        await self.send(text_data=json.dumps(ret))
