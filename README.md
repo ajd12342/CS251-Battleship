@@ -17,6 +17,8 @@ An online version of the Battleship Game with some additional features for CS-25
  - Head to a browser and go to `<server_ip>:8000/`
  - Login with your existing credentials or create a new account
  - You are now at your profile page. Click on Begin Game to see the list of available players
+ 
+ ## Guide to Play
  - Click on any user to send them a play request
  - Once the player accepts your request, you will be redirected to page where you will have to place your ships.
  - Instructions for placing ships:
