@@ -1,6 +1,7 @@
 \documentclass[titlepage]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \graphicspath{ {./images/} }
 
 \title{\textbf{Battleship} \\ CS251 : Software Systems Lab}
@@ -91,13 +92,13 @@ If the message contains the `loggedIn' attribute then it corresponds to a user l
 
 \subsubsection{Sending Messages}
 In the list.html we defined a function to handle the events of a user clicking on another user's profile and thereby sending a request. The message was again sent as a JSON containing `from', `to', `purpose' and `type' attributes. The javascript function sends this message over WebSocket to the ChatConsumer. The ChatConsumer upon receiving the message forwards it to the entire group of channels. This is done when a user sends or cancels a request. The ChatConsumers of the receiving channel then sends the message over websocket to javascript, which is then handled in the way described in the above paragraph.
-\section{Leaderboard}
+\subsection{Leaderboard}
 On the pairing page, a leaderboard of all users is displayed on the right. The leaderboard is sorted according to the total number of points each player has. In case two players have the same number of points, the number of games they have won are compared. This is implemented by first displaying all the users using the Django template language and storing the scores and the number of games won, and then sorting the list according to the given criterion.
 \section{Placing Ships}
 The front-end was implemented using the Javascript library React.
 In the placing.html file we have created a class called board which will store the current state of the board and defined a function to handle the onclick event. It contains a variable to store which all squares on the board and another variable which stores the points which a particular ship covers. The render function is designed to display the board and give the user options to select ships and place them on the board. We have also created functions which handle events related to placing of ships. For all the ships, we have decided on keeping a point as pivot and then allowing rotations about that point. There are 4 possible orientations for every ship(though some of them may be same for a few pieces). Clicking on a ship selects it and clicking on it subsequent times, rotates it. The player can choose a ship, its orientation and the point where to keep its pivot, after which the function `handleClick' will be called. Based on the ship and its orientation we push all the points covered by that particular ship into an array and then check if any of them goes outside the board and if all the ships have been placed. If both these conditions are met, we send a message through the websocket to django in order to update the database. We also display the number of ships of each type which have been successfully placed.
 
-\subsection{The Actual Game}
+\section{The Actual Game}
 To enable communication between the players, we have again made use of websocket connections. As soon as the players get redirected to the play page, the socket connection gets established. Consumers.py contains a `SubmitConsumer' class, whose member functions handle various events related to the game. Upon page load a Websocket connection is established that receives the current state of the game from Django. This then renders the boards appropriately and also the scores. The colours and which player's turn it is are implemented using the render() functions of the Boards.
 
 \subsection{Shooting}
@@ -152,11 +153,14 @@ The idea is again almost the same. `Consumers.py' contains a class named `GameCh
 
 \section{References}
 \begin{enumerate}
-    \item https://stackoverflow.com/
-    \item https://docs.djangoproject.com/en/2.1/
-    \item https://channels.readthedocs.io/en/latest/
-    \item https://hackernoon.com/reconciling-djangos-mvc-templates-with-react-components-3aa986cf510a
-    \item https://realpython.com/getting-started-with-django-channels/
-    \item https://blog.heroku.com/in\_deep\_with\_django\_channels\_the\_future\_of\_real\_time\_apps\_in\_django
+    \item \href{https://stackoverflow.com/}{https://stackoverflow.com/}
+    \item \href{https://docs.djangoproject.com/en/2.1/}{https://docs.djangoproject.com/en/2.1/}
+    \item \href{https://channels.readthedocs.io/en/latest/}{https://channels.readthedocs.io/en/latest/}
+    \item \href{https://hackernoon.com/reconciling-djangos-mvc-templates-with-react-components-3aa986cf510a}{https://hackernoon.com/reconciling-djangos-mvc-templates-with-react-components-3aa986cf510a}
+    \item \href{https://realpython.com/getting-started-with-django-channels/}{https://realpython.com/getting-started-with-django-channels/}
+    \item \href{https://blog.heroku.com/in_deep_with_django_channels_the_future_of_real_time_apps_in_django}{https://blog.heroku.com/in\_deep\_with\_django\_channels\_the\_future\_of\_real\_time\_apps\_in\_django}
+    \item \href{https://medium.com/practo-engineering/websockets-in-react-the-component-way-368730334eef}{https://medium.com/practo-engineering/websockets-in-react-the-component-way-368730334eef}
+    \item \href{https://reactjs.org/tutorial/tutorial.html}{https://reactjs.org/tutorial/tutorial.html}
+    \item \href{https://codeburst.io/lets-build-a-countdown-timer-with-react-part-1-2e7d5692d914}{https://codeburst.io/lets-build-a-countdown-timer-with-react-part-1-2e7d5692d914}
 \end{enumerate}
 \end{document}
