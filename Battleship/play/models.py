@@ -21,3 +21,4 @@ class Game(models.Model):
     player1Score=models.IntegerField()
     player2Score=models.IntegerField()
     activePlayerIs1=models.BooleanField()
+    winner=models.ForeignKey(User,on_delete=models.CASCADE,related_name='winner',blank=True, null=True)

@@ -8,6 +8,10 @@
 <br>
 <div class="container jumbotron justify-content-centre">
 	<h1 class="row">Welcome, {{user.username}}.</h1>
+    <div class="row">
+        <h4>Bio: {{ user.profile.bio|escape }} </h4>
+        <h4>Location: {{ user.profile.location|escape }}</h4>
+    </div>
 	<hr>
 	<a href="{% url 'list' %}" class="btn btn-success">Begin Game</a>
 </div>

@@ -49,6 +49,7 @@
         <span style="height: auto; color:lightgray; padding: 5px;" id="timer">0.00</span>
         <span style="height: auto; color:white;">Score:</span>
         <span style="height: auto; color:orange; padding-left: 5px; padding-right: 10px" id="score">0</span>
+        <a href="{% url 'profile' %}" class="navbar-brand">{{user.username}}</a>
         <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
     </nav>
     <div class="container container-fluid">
@@ -515,6 +516,9 @@
                             this.board2.iAmPlayer1=this.iAmPlayer1;
                             this.updateState(this.board1,data);
                             this.updateState(this.board2,data);
+                        }
+                        if(data['purpose']==='Game Over'){
+                            window.location.href = '/play/finish/' + '{{ room_name }}';
                         }
                     }
                 };

@@ -149,6 +149,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 g = Game.objects.get(pk=event['game_id'])
                 if(self.user.username==event['from']):
                     if(event['iAmPlayer1']):
+                        print(event['noOfSunkShips'])
                         g.player2Pieces.noOfSunkShips = event['noOfSunkShips']
                         g.player2Pieces.squares = event['squares']
                         g.player2Pieces.iOfSquaresOfType = event['iOfSquaresOfType']
@@ -174,9 +175,48 @@ class GameConsumer(AsyncWebsocketConsumer):
                         self.room_group_name,
                         gameState(self.game_id,self.user.username,'Update State')
                     )
+                    #print(g.player1Pieces.noOfSunkShips)
+                    if(g.player1Pieces.noOfSunkShips==8):
+                        g.winner=g.player2
+                        g.player1.profile.noOfGamesPlayed += 1
+                        g.player2.profile.noOfGamesPlayed += 1
+                        g.player2.profile.noOfGamesWon += 1
+                        g.player1.save()
+                        g.player2.save()
+                        g.save()
+                        await self.channel_layer.group_send(
+                            self.room_group_name,
+                            {
+                                'type':'chat_message',
+                                'from': self.user.username,
+                                'purpose': 'Game Over',
+                                'winner': g.player2.username,
+                            }
+                        )
+                    elif (g.player2Pieces.noOfSunkShips == 8):
+                        print("Entered")
+                        g.winner = g.player1
+                        g.player1.profile.noOfGamesPlayed+=1
+                        g.player2.profile.noOfGamesPlayed+=1
+                        g.player1.profile.noOfGamesWon+=1
+                        g.player1.save()
+                        g.player2.save()
+                        g.save()
+                        await self.channel_layer.group_send(
+                            self.room_group_name,
+                            {
+                                'type': 'chat_message',
+                                'from': self.user.username,
+                                'purpose': 'Game Over',
+                                'winner': g.player1.username,
+                                'game_id': self.game_id,
+                            }
+                        )
             if(event['purpose']=='Update State'):
                 await self.send(json.dumps(event))
-
+            if(event['purpose']=='Game Over'):
+                print("Actual entered")
+                await self.send(json.dumps(event))
 def gameState(game_id,from_username,purpose):
     g=Game.objects.get(pk=game_id)
     return {

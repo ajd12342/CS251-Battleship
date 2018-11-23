@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block style %}
+    <style>
+        ul[id='ul']{
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        ul[id='ul'] > li{
+            display: inline-block;
+        }
+        ul[id='ul'] > li > input{
+            visibility: hidden;
+        }
+        ul[id='ul'] > li > label {
+            cursor: pointer;
+            font-size: 25px;
+        }
+        .labelDiv{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        {#CSS taken from#}
+        {#https://stackoverflow.com/questions/27108563/how-to-move-the-text-a-bit-up-and-to-the-right#}
+
+
+        .logo_left, .logo_right {
+            font-family: "Droid Sans";
+            font-size: 34px;
+            top: -20px;
+        }
+        .logo_right {
+            color: #FECD0F;
+        }
+        .logo_left {
+            color: #234371;
+        }
+
+
+    </style>
+{% endblock %}
+{% block title %}Place Ships{% endblock %}
+{% load static %}
+{% block content %}
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-end align-content-end">
+        <a href="{% url 'profile' %}" class="navbar-brand">{{user.username}}</a>
+        <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+    </nav>
+    <div class="row">
+			<div class="col-sm-4">
+				<img id="image" src="" class="img-rounded" alt="Image">
+			</div>
+			<div class="jumbotron col-sm-8" style="background-color: transparent;">
+				<h1 id="text"></h1>
+				<h3 id="subtext"></h3>
+			</div>
+		</div>
+    <script>
+        if('{{ winner }}'==='{{ user.username }}'){
+            document.getElementById('image').setAttribute('src',"{% static 'play/images/happy.jpg' %}");
+            document.getElementById('text').innerHTML='You Won!';
+            document.getElementById('subtext').innerText='Congratulations on this successful win. Click your username in the navigation bar to return to your profile.';
+        }else{
+            document.getElementById('image').setAttribute('src',"{% static 'play/images/sad.png' %}");
+            document.getElementById('text').innerHTML='You Lost.';
+            document.getElementById('subtext').innerText='Better luck next time. Click your username in the navigation bar to return to your profile.';
+        }
+    </script>
+{% endblock %}

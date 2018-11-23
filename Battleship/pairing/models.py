@@ -12,6 +12,9 @@ class Profile(models.Model):
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     isAvailable= models.BooleanField(default= False)
+    totalScore=models.IntegerField()
+    noOfGamesPlayed=models.IntegerField()
+    noOfGamesWon=models.IntegerField()
     
     def __str__(self):
         return str(self.user)
@@ -19,7 +22,7 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        Profile.objects.create(user=instance,totalScore=0,noOfGamesPlayed=0,noOfGamesWon=0)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

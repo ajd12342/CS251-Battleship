@@ -56,10 +56,11 @@
     </style>
 {% endblock %}
 {% block title %}Place Ships{% endblock %}
- {% load static %}
+{% load static %}
 {% block content %}
     <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-end align-content-end">
-    <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+        <a href="{% url 'profile' %}" class="navbar-brand">{{user.username}}</a>
+        <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
     </nav>
     <div class="container container-fluid">
         <br>
