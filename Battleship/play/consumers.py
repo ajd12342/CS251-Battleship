@@ -21,14 +21,6 @@ class SubmitConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         # Leave room group
         print(self.user.username,"Left")
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type':'chat_message',
-                'purpose': 'Left Game',
-                'game_id': self.game_id,
-                'from': self.user.username
-            })
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -69,6 +61,7 @@ class SubmitConsumer(AsyncWebsocketConsumer):
                         if(g.player1.username==event['from']):
                             print("enter")
                             g.player1Placed=True
+                            g.player1Score=0
                             g.player1Pieces.noOfSunkShips=0
                             g.player1Pieces.squares=event['squares']
                             g.player1Pieces.iOfSquaresOfType=event['iOfSquaresOfType']
@@ -78,6 +71,7 @@ class SubmitConsumer(AsyncWebsocketConsumer):
                             g.save()
                         if (g.player2.username == event['from']):
                             g.player2Placed = True
+                            g.player2Score=0
                             g.player2Pieces.noOfSunkShips = 0
                             g.player2Pieces.squares = event['squares']
                             g.player2Pieces.iOfSquaresOfType = event['iOfSquaresOfType']
@@ -118,14 +112,6 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         # Leave room group
         print(self.user.username,"Left")
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type':'chat_message',
-                'purpose': 'Left Game',
-                'game_id': self.game_id,
-                'from': self.user.username
-            })
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -168,6 +154,8 @@ class GameConsumer(AsyncWebsocketConsumer):
                         g.player2Pieces.iOfSquaresOfType = event['iOfSquaresOfType']
                         g.player2Pieces.jOfSquaresOfType = event['jOfSquaresOfType']
                         g.player2Pieces.squaresLeft = event['squaresLeft']
+                        g.player1Score=event['score']
+                        g.player1Pieces.save()
                         g.activePlayerIs1=event['activePlayerIs1']
                         g.player2Pieces.save()
                         g.save()
@@ -177,6 +165,8 @@ class GameConsumer(AsyncWebsocketConsumer):
                         g.player1Pieces.iOfSquaresOfType = event['iOfSquaresOfType']
                         g.player1Pieces.jOfSquaresOfType = event['jOfSquaresOfType']
                         g.player1Pieces.squaresLeft = event['squaresLeft']
+                        g.player2Score = event['score']
+                        g.player1Pieces.save()
                         g.activePlayerIs1 = event['activePlayerIs1']
                         g.player1Pieces.save()
                         g.save()
@@ -200,11 +190,13 @@ def gameState(game_id,from_username,purpose):
                 'p1jOfSquaresOfType': g.player1Pieces.jOfSquaresOfType,
                 'p1noOfSunkShips':g.player1Pieces.noOfSunkShips,
                 'p1squaresLeft':g.player1Pieces.squaresLeft,
+                'p1score':g.player1Score,
                 'p2squares': g.player2Pieces.squares,
                 'p2iOfSquaresOfType': g.player2Pieces.iOfSquaresOfType,
                 'p2jOfSquaresOfType': g.player2Pieces.jOfSquaresOfType,
                 'p2noOfSunkShips': g.player2Pieces.noOfSunkShips,
                 'p2squaresLeft': g.player2Pieces.squaresLeft,
+                'p2score': g.player2Score,
                 'activePlayerIs1':g.activePlayerIs1,
                 'game_id': game_id,
             }
@@ -228,15 +220,6 @@ class GameChatConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         # Leave room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type':'chat_message',
-                'purpose': 'Left Chat',
-                'game_id': self.game_id,
-                'message': '',
-                'from': self.user.username
-            })
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name

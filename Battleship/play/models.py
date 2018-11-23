@@ -18,4 +18,6 @@ class Game(models.Model):
     player2Pieces = models.OneToOneField(PlayerPieces,on_delete=models.CASCADE,related_name='player2Pieces')
     player1Placed=models.BooleanField()
     player2Placed=models.BooleanField()
+    player1Score=models.IntegerField()
+    player2Score=models.IntegerField()
     activePlayerIs1=models.BooleanField()

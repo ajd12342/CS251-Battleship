@@ -58,7 +58,9 @@
 {% block title %}Place Ships{% endblock %}
  {% load static %}
 {% block content %}
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center"> <span class="btn btn-warning">Battleship</span> </nav>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-end align-content-end">
+    <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+    </nav>
     <div class="container container-fluid">
         <br>
         <div class="row">

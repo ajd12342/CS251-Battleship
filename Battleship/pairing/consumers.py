@@ -67,11 +67,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                           player1Pieces=PlayerPieces.objects.create(
                                               noOfSunkShips=0,
                                           ),
+                                          player1Score=0,
                                           player2Pieces=PlayerPieces.objects.create(
                                               noOfSunkShips=0),
                                           activePlayerIs1=True,
                                           player1Placed=False,
-                                          player2Placed=False
+                                          player2Placed=False,
+                                          player2Score=0,
                                           )
                     ret['game_id'] = g.id
         # if event['to']==self.user.username:
