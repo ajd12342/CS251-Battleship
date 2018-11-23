@@ -43,6 +43,9 @@ In the placing.html file we have created a class called board which will store t
 
 \subsubsection{The Actual Game}
 To enable communication between the players, we have again made use of websocket connections. As soon as the players get redirected to the play page, the socket connection gets established. Consumers.py contains a "SubmitConsumer" class, whose member functions handle various events related to the game. If a player disconnects in while the game is going on, submit consumer sends a message to the group that the player has disconnected. The message has a purpose attribute which is set to "left\_game" for a message of this kind. The file placing.html contains a function to handle the message recieved from the websocket. The function checks the purpose attribute of the message. If it is set to "left\_game", then it displays a message saying that the opponent has left the game.
+\subsection{Shooting}
+The "game.html" file contains a Board class. It renders the board and also the number of ships which are left to be sunk by the current player. It has an HandleClick function, which when called updates all the info and sends a message to django in order to update the state. Django on receiving the message updates the corresponding game object and the sends the message to javascript and also back to the group, indicating that the data has been updated. 
+For handling the message at the receiver's end, we have socket.onmessage function, which gets called when a message is received. It internally then calls updateState, which updates information like the state of the board and the current player after checking whether the player receiving the message is player 1 or player 2.
 \section{Contributions}
 
 \end{document}
