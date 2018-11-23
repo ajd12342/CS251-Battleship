@@ -1,3 +1,4 @@
+#/bin/bash
 if [ $# -ne 1 ];
 then
   echo "Usage: bash run.sh <server_ip>";
