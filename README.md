@@ -4,13 +4,16 @@ An online version of the Battleship Game with some additional features for CS-25
 
 ## Guide To Run Server
 
- - Run `build.sh` with `sudo` permissions to install the required dependencies and start the server as:
- 
-        sudo bash build.sh
  - Find your ip address by running the following command in a terminal
  
         ifconfig
  - Add your ip address in the file `CS251-Battleship/Battleship/Battleship/settings.py` inside the list `ALLOWED_HOSTS` at line 28
+  - Run `build.sh` with `sudo` permissions to install the required dependencies and start the server as:
+ 
+        sudo bash build.sh <server_ip>
+  - If all the dependencies are already installed then, run the following to start the server:
+  
+        bash run.sh <server_ip>
  
  ## Guide to Start Playing
  - Get the ip address of the server `<server_ip>`
