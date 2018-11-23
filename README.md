@@ -1,19 +1,36 @@
 # CS251-Battleship
 
-Battleship Game for CS-251 Course Project.
+An online version of the Battleship Game with some additional features for CS-251 Course Project.
 
-## Guide To Run
+## Guide To Run Server
 
  - Run `build.sh` with `sudo` permissions to install the required dependencies and start the server as:
  
         sudo bash build.sh
- - Head to a browser and go to `localhost:8000/pairing/`
+ - Find your ip address by running the following command in a terminal
+ 
+        ifconfig
+ - Add your ip address in the file `CS251-Battleship/Battleship/Battleship/settings.py` inside the list `ALLOWED_HOSTS` at line 28
+ 
+ ## Guide to Start Playing
+ - Get the ip address of the server `<server_ip>`
+ - Head to a browser and go to `<server_ip>:8000/`
+ - Login with your existing credentials or create a new account
+ - You are now at your profile page. Click on Begin Game to see the list of available players
+ - Click on any user to send them a play request
+ - Once the player accepts your request, you will be redirected to page where you will have to place your ships.
+ - Instructions for placing ships:
+    - To place a ship on the board, first click the ship's shape to select it and then click a location on the board. The square marked by an 'X' will be placed at the clicked location.
+    - To rotate a ship and place it, first click the ship's shape to select it. Any subsequent clicks on the same shape will rotate it. Place on the board as before.
+    - After completing placing of all ships, click the Submit button.
+ - Once your opponent finishes placing their ships, both of you will be directed to the game page
  - Enjoy the game :smiley:
  
  ## Dependencies
  - __Linux__
    - Python Dev
    - Redis
+   - Net Tools
  - __Python__
    - Django == 2.1.3
    - Django Crispy Forms == 1.7.2
