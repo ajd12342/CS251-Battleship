@@ -29,7 +29,7 @@
 {% block title %}Place Ships{% endblock %}
 
 {% block content %}
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center"> <span class="btn btn-warning">Battleship</span> </nav>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-end"> <span style="height: auto; " id="timer"></span> </nav>
     <div class="container container-fluid">
         <br>
         <div class="row">
@@ -47,6 +47,9 @@
         upperCount[3]=1;
         upperCount[4]=1;
         upperCount[5]=1;
+        let seconds=5;
+        let intervalHandle=null;
+        let timeUp=false;
         function Square(props) {
             return React.createElement(
                 'button',
@@ -92,7 +95,9 @@
                     let noOfSunkShips = this.state.noOfSunkShips;
                     let squaresLeft = jQuery.extend(true, {}, this.state.squaresLeft);
                     let activePlayerIsMe = this.state.activePlayerIsMe;
-                    if (squares[i][j] === 0) {
+                    if(i===20 && j===20){
+                        activePlayerIsMe=!activePlayerIsMe;
+                    } else if (squares[i][j] === 0) {
                         squares[i][j] = 2;
                         activePlayerIsMe = !activePlayerIsMe;
                     } else if (squares[i][j] === 1) {
@@ -162,6 +167,18 @@
                     alert("Sent");
                 }
             }
+            startCountDown() {
+                intervalHandle = setInterval(()=>{
+                    document.getElementById('timer').innerText=seconds.toFixed(2);
+                    if(seconds<=0.01){
+                        clearTimeout(intervalHandle);
+                        this.handleClick(20,20);
+                    }else {
+                        seconds=seconds-0.1;
+                    }
+                    console.log(seconds);
+                }, 100);
+            }
             renderSquare(i, j) {
                 let k = 10 * i + j;
                 let type=0;
@@ -207,6 +224,7 @@
                 });
             }
             render() {
+
                 let rows = [];
                 console.log(this.myBoard,this.state.iOfSquaresOfType);
                 for (let i = 0; i < 10; i++) {
@@ -349,18 +367,18 @@
                                 ),
                             ),
                         ),
-                    )
+                    );
                 } else if(this.myBoard){
-                	rows.push(
-                		React.createElement(
-                			'div',
-                			{
-                				id: 'chat_container_1',
-                				key: 'chat_container_1',
+                    rows.push(
+                        React.createElement(
+                            'div',
+                            {
+                                id: 'chat_container_1',
+                                key: 'chat_container_1',
                                 className: 'panel panel-primary'
-                			},
-                		),
-                	)	
+                            },
+                        ),
+                    )
                 }
                 let className='col-6';
                 if(this.myBoard){
@@ -389,6 +407,10 @@
                         (data['p1']==='{{ user.username }}' && data['activePlayerIs1']) ||
                         (data['p2']==='{{ user.username }}' && !data['activePlayerIs1'])
                     );
+                seconds=0;
+                if(activePlayerIsMe){
+                    seconds=5;
+                }
                 if((boardref.myBoard && data['p1']==='{{ user.username }}') ||
                     (!boardref.myBoard && data['p2']==='{{ user.username }}')){
                     boardref.setState({
@@ -413,6 +435,10 @@
                 this.setState({
                     activePlayerIsMe: activePlayerIsMe
                 });
+                console.log("Seconds:" + seconds );
+                if(!boardref.myBoard && activePlayerIsMe){
+                    boardref.startCountDown();
+                }
             }
             componentDidMount() {
                 this.socket = new WebSocket('ws://' + window.location.host + '/game/');
@@ -597,26 +623,26 @@
                 );
                 rows.push(
                     React.createElement(
-                    'div',
-                    {
-                        className: 'panel-footer',
-                        key: 'row'
-                    },
-                    React.createElement(
-                        'input',
+                        'div',
                         {
-                            type: 'text',
-                            id: 'message',
-                        }
-                    ),
-                    React.createElement(
-                        "input",
-                        {
-                            type: "button",
-                            onClick: () => this.sendMessage(),
-                            value: "Send",
+                            className: 'panel-footer',
+                            key: 'row'
                         },
-                    ),
+                        React.createElement(
+                            'input',
+                            {
+                                type: 'text',
+                                id: 'message',
+                            }
+                        ),
+                        React.createElement(
+                            "input",
+                            {
+                                type: "button",
+                                onClick: () => this.sendMessage(),
+                                value: "Send",
+                            },
+                        ),
                     )
                 );
                 return React.createElement(
