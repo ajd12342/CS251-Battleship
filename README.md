@@ -15,8 +15,8 @@ An online version of the Battleship Game with some additional features for CS-25
   
         bash run.sh <server_ip>
   - Login credentials for Django admin:
-      - Username: ajd
-      - Password: ajd
+      - Username: admin
+      - Password: admin
  
  ## Guide to Start Playing
  - Get the ip address of the server `<server_ip>`
