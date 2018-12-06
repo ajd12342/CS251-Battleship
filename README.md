@@ -19,6 +19,7 @@ An online version of the Battleship Game with some additional features for CS-25
       - Password: admin
  
  ## Guide to Start Playing
+ - Connect to the same local network on which your server is running.
  - Get the ip address of the server `<server_ip>`
  - Head to a browser and go to `<server_ip>:8000/`
  - Login with your existing credentials or create a new account
@@ -38,7 +39,7 @@ An online version of the Battleship Game with some additional features for CS-25
  ## Scoring
  - For each correct shot fired in time `t` seconds the player is awarded `20-t` points
  - For each wrong shot fired, no points are awarded or deducted
- - At the end of the game, the winner is awarded points equal the sum of points awarded at each move
+ - At the end of the game, the winner is awarded points equal to the sum of points awarded at each move
   
  ## Dependencies
  - __Linux__
