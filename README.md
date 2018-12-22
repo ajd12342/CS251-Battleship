@@ -33,7 +33,7 @@ An online version of the Battleship Game with some additional features for CS-25
     - To rotate a ship and place it, first click the ship's shape to select it. Any subsequent clicks on the same shape will rotate it. Place on the board as before.
     - After completing placing of all ships, click the Submit button.
  - Once your opponent finishes placing their ships, both of you will be directed to the game page
- - Each player is given a chance to shoots at their opponent's ships alternatively. Each turn lasts for 20 seconds after which you forfeit you turn and the opponent plays. For a correct move you get another move.
+ - Each player is given a chance to shoot at their opponent's ships alternatively. Each turn lasts for 20 seconds after which you forfeit you turn and the opponent plays. For a correct move you get another move.
  - Enjoy the game :smiley:
  
  ## Scoring
